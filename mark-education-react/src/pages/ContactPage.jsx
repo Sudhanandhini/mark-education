@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { EnquiryForm } from '../components/Faq'
 import PageBanner from '../components/PageBanner'
+import Cta from '../components/Cta'
 import { Eyebrow, FillIcon, Icon, Reveal, SOCIAL, Title, btnPrimary, cn } from '../components/ui'
 import { EMAIL, HOURS, MAP_QUERY, OFFICES, PHONE, PHONE_HREF } from '../data/content'
 
-const BANNER = 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1800&q=70'
+const BANNER = 'https://images.unsplash.com/photo-1686984096026-23d6e82f9749?auto=format&fit=crop&w=1800&q=70'
 
 const INFO = [
   { icon: 'phone', label: 'Call Us', value: PHONE, href: PHONE_HREF, fill: true },
@@ -156,6 +157,7 @@ export default function ContactPage() {
       <InfoCards />
       <Offices />
       <Feedback />
+       <Cta />
     </>
   )
 }

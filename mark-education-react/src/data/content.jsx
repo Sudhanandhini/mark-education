@@ -13,20 +13,13 @@ export function coursePageFor(title) {
   return null
 }
 
-/** Best link for a course title: its detail page, else its category on /courses. */
-export function courseHref(title) {
-  const page = coursePageFor(title)
-  if (page) return page
-  const tab = COURSE_TABS.find((t) => t.courses.some((c) => c.title === title || title.includes(c.title)))
-  return tab ? `/courses#${tab.id}` : '/courses'
-}
-
 /** `match`: path prefix that marks the item active. */
 export const NAV = [
   { label: 'Home', href: '/', match: '/' },
   { label: 'About Us', href: '/about', match: '/about' },
   { label: 'Courses', href: '/courses', match: '/courses' },
-  { label: 'Academic Partners', href: '/#partners' },
+  { label: 'Gallery', href: '/gallery', match: '/gallery' },
+  { label: 'Academic Partners', href: '/academic-partners', match: '/academic-partners' },
   { label: 'Certificate Verification', href: '/verify-certificate', match: '/verify-certificate' },
   { label: 'Contact Us', href: '/contact', match: '/contact' },
 ]
@@ -212,17 +205,30 @@ export const ENQUIRY_COURSES = [
   'Digital Statutory E-Filing', 'GST Executive',
 ]
 
+/** Enquiry-form option for a course title, e.g. "SAP – SAP FICO" → "SAP FICO", "Tally Prime – Basic" → "Tally Prime". */
+export function enquiryCourseFor(title) {
+  if (ENQUIRY_COURSES.includes(title)) return title
+  const parts = title.split(/\s+–\s+/)
+  return parts.find((p) => ENQUIRY_COURSES.includes(p)) || ''
+}
+
 export const QUICK_LINKS = [
+  { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about' },
-  { label: 'All Courses', href: '/courses' },
-  { label: 'Academic Partners', href: '/#partners' },
+  { label: 'Courses', href: '/courses' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'Academic Partners', href: '/academic-partners' },
   { label: 'Certificate Verification', href: '/verify-certificate' },
   { label: 'Contact Us', href: '/contact' },
-  { label: 'Feedback', href: '/contact#enquiry' },
-  { label: 'Mandatory Disclosure', href: '#' },
 ]
 
-export const POPULAR_COURSES = ['Advanced Excel', 'Tally Prime', 'SAP FICO', 'Power BI', 'GST Executive', 'English Communication']
+/** Footer "Popular Courses" column */
+export const POPULAR_COURSES = [
+  { label: 'Power BI', href: '/courses/power-bi' },
+  { label: 'Microsoft Excel', href: '/courses/excel' },
+  { label: 'Tally Prime', href: '/courses/tally-prime' },
+  { label: 'All Courses →', href: '/courses' },
+]
 
 /* ---------- About page ---------- */
 export const HOURS = 'Mon – Sat : 8:00 AM – 8:00 PM'

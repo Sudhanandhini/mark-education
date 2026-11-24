@@ -55,14 +55,18 @@ const FILL = {
   clock: 'M12 2a10 10 0 100 20 10 10 0 000-20zm.5 5v5.3l4.5 2.7-.8 1.2L11 13V7z',
   pin: 'M12 2a7 7 0 00-7 7c0 5.3 7 13 7 13s7-7.7 7-13a7 7 0 00-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z',
   facebook: 'M14 8V6c0-.9.6-1 1-1h3V1h-4c-3.6 0-5 2.6-5 5.5V8H6v4h3v11h5V12h3.5l.5-4z',
-  instagram: 'M12 7a5 5 0 100 10 5 5 0 000-10zm0 8.2a3.2 3.2 0 110-6.4 3.2 3.2 0 010 6.4zM17.3 5.5a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4zM12 2c-2.7 0-3 0-4.1.1C3.9 2.3 2.3 4 2.1 7.9 2 9 2 9.3 2 12s0 3 .1 4.1c.2 3.9 1.8 5.6 5.8 5.8 1.1.1 1.4.1 4.1.1s3 0 4.1-.1c3.9-.2 5.6-1.9 5.8-5.8.1-1.1.1-1.4.1-4.1s0-3-.1-4.1C21.7 4 20 2.3 16.1 2.1 15 2 14.7 2 12 2z',
+  // ring + lens + dot, drawn with the even-odd rule so the inside stays hollow
+  instagram:
+    'M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm0 2a3 3 0 00-3 3v10a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H7zm5 3a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6zm5.5-3.7a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z',
   google: 'M21.4 10.2H12v3.9h5.4c-.5 2.4-2.6 3.9-5.4 3.9a6 6 0 010-12c1.5 0 2.8.5 3.8 1.4l2.9-2.9A10 10 0 1012 22c5.3 0 9.6-3.8 9.6-10 0-.6 0-1.2-.2-1.8z',
 }
+
+const EVENODD = new Set(['instagram'])
 
 export function FillIcon({ name, className }) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
-      <path d={FILL[name]} />
+      <path d={FILL[name]} fillRule={EVENODD.has(name) ? 'evenodd' : undefined} />
     </svg>
   )
 }

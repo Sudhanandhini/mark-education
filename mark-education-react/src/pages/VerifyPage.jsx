@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import logo from '../assets/logo.webp'
+import Cta from '../components/Cta'
 import { Icon, Reveal, SmartLink, btnPrimary, cn } from '../components/ui'
 
 const API = `${import.meta.env.VITE_API_BASE ?? ''}/api/verify.php`
@@ -514,6 +515,8 @@ export default function VerifyPage() {
           </Reveal>
         </div>
       </section>
+
+       <Cta />
     </>
   )
 }

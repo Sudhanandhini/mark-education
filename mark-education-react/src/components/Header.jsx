@@ -51,7 +51,7 @@ export default function Header() {
         <div
           className={cn(
             'wrap flex items-center justify-between transition-[height] duration-300',
-            scrolled ? 'h-[72px]' : 'h-[88px] max-sm:h-[74px]',
+            scrolled ? 'h-[85px]' : 'h-[100px] max-sm:h-[85px]',
           )}
         >
           <SmartLink href="/" aria-label="Mark Education Academy – An ISO 9001:2015 Certified Company">
@@ -79,7 +79,7 @@ export default function Header() {
                     href={item.href}
                     onClick={() => isMobile() && setOpen(false)}
                     className={cn(
-                      'flex items-center gap-1.5 whitespace-nowrap px-3 py-2.5 text-[.88rem] font-semibold transition-colors duration-250 hover:text-brand',
+                      'flex items-center gap-1.5 whitespace-nowrap px-3 py-2.5 text-[1.1rem] font-semibold transition-colors duration-250 hover:text-brand',
                       'max-xl:px-[9px] max-xl:text-[.84rem]',
                       'max-lg:justify-between max-lg:border-b max-lg:border-line max-lg:px-7 max-lg:py-3.5 max-lg:text-[.95rem]',
                       isActive(item)
@@ -91,7 +91,7 @@ export default function Header() {
                   </SmartLink>
                 </li>
               ))}
-              <li>
+              {/* <li>
                 <button
                   type="button"
                   onClick={() => openEnquiry()}
@@ -100,7 +100,7 @@ export default function Header() {
                 >
                   Enquire Now
                 </button>
-              </li>
+              </li> */}
             </ul>
           </nav>
 

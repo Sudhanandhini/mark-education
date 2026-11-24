@@ -11,6 +11,8 @@ import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
 import CoursesPage from './pages/CoursesPage'
 import VerifyPage from './pages/VerifyPage'
+import GalleryPage from './pages/GalleryPage'
+import AcademicPartnersPage from './pages/AcademicPartnersPage'
 
 /** Scroll to top on page change, or to the #section when the URL has a hash. */
 function ScrollManager() {
@@ -50,6 +52,8 @@ export default function App() {
         <Route path="about" element={<AboutPage />} />
         <Route path="courses" element={<CoursesPage />} />
         <Route path="courses/:slug" element={<CoursePage />} />
+        <Route path="gallery" element={<GalleryPage />} />
+        <Route path="academic-partners" element={<AcademicPartnersPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="verify-certificate" element={<VerifyPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />

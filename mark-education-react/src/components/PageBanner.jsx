@@ -2,12 +2,13 @@ import { Link } from 'react-router-dom'
 import { Eyebrow } from './ui'
 
 /** Inner-page header: dark brand banner with a slow-zooming photo, breadcrumb and staggered title. */
-export default function PageBanner({ eyebrow, title, text, crumb, image }) {
+/** `position` sets which part of the photo stays visible (CSS background-position), e.g. 'center 20%'. */
+export default function PageBanner({ eyebrow, title, text, crumb, image, position = 'center' }) {
   const rise = (i) => ({ className: 'animate-rise', style: { animationDelay: `${0.1 + i * 0.12}s` } })
 
   return (
     <section className="relative overflow-hidden bg-brand-deep py-[110px] text-white max-lg:py-24 max-sm:py-[72px]">
-      <div className="absolute inset-0 animate-kenburns bg-cover bg-center" style={{ backgroundImage: `url('${image}')` }} />
+      <div className="absolute inset-0 animate-kenburns bg-cover" style={{ backgroundImage: `url('${image}')`, backgroundPosition: position }} />
       <span className="absolute inset-0 bg-linear-100 from-brand-deep from-30% via-brand-deep/90 to-brand-deep/55" />
       <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.04)_1px,transparent_1px)] bg-size-[56px_56px] [mask-image:linear-gradient(90deg,#000,transparent_70%)]" />
 

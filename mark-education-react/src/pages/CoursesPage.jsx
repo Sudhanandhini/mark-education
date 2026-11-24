@@ -2,12 +2,13 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import Cta from '../components/Cta'
 import Faq from '../components/Faq'
+import { useEnquiry } from '../components/EnquiryProvider'
 import PageBanner from '../components/PageBanner'
 import { Eyebrow, Icon, Lead, Reveal, SmartLink, Title, cn } from '../components/ui'
-import { COURSE_TABS, coursePageFor } from '../data/content'
+import { COURSE_TABS, coursePageFor, enquiryCourseFor } from '../data/content'
 import { COURSE_PAGE_LIST } from '../data/coursePages'
 
-const BANNER = 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1800&q=70'
+const BANNER = 'https://images.unsplash.com/photo-1722573783625-eceb04251036?auto=format&fit=crop&w=1800&q=70'
 
 const ALL = COURSE_TABS.flatMap((t) => t.courses.map((c) => ({ ...c, cat: t.id, catLabel: t.tab })))
 
@@ -65,6 +66,7 @@ function Featured() {
 function Catalogue() {
   const { hash } = useLocation()
   const [filter, setFilter] = useState('all')
+  const { openEnquiry } = useEnquiry()
 
   // /courses#accounts etc. pre-selects that category
   useEffect(() => {
@@ -118,13 +120,18 @@ function Catalogue() {
         <div className="grid grid-cols-3 gap-6 max-lg:grid-cols-2 max-sm:grid-cols-1">
           {list.map((c, i) => {
             const page = coursePageFor(c.title)
+            // courses with a detail page link to it; the rest open the enquiry popup
+            const Card = page ? SmartLink : 'button'
+            const cardProps = page
+              ? { href: page }
+              : { type: 'button', 'aria-haspopup': 'dialog', onClick: () => openEnquiry(enquiryCourseFor(c.title)) }
             return (
-              <SmartLink
+              <Card
                 key={`${filter}-${c.title}`}
-                href={page || '#enquiry'}
+                {...cardProps}
                 style={{ animationDelay: `${i * 60}ms` }}
                 className={cn(
-                  'group relative flex animate-rise flex-col overflow-hidden rounded-[14px] border border-line bg-white p-6 transition-all duration-350 ease-smooth',
+                  'group relative flex w-full animate-rise flex-col text-left overflow-hidden rounded-[14px] border border-line bg-white p-6 transition-all duration-350 ease-smooth',
                   'hover:-translate-y-1.5 hover:border-brand/40 hover:shadow-soft',
                   'after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-full after:origin-left after:scale-x-0 after:bg-brand after:transition-transform after:duration-500 hover:after:scale-x-100',
                 )}
@@ -146,7 +153,7 @@ function Catalogue() {
                     {page ? 'Details' : 'Enquire'} <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
                   </span>
                 </div>
-              </SmartLink>
+              </Card>
             )
           })}
         </div>

@@ -1,5 +1,5 @@
 import logo from '../assets/logo.webp'
-import { EMAIL, PHONE, PHONE_HREF, POPULAR_COURSES, QUICK_LINKS, courseHref } from '../data/content'
+import { EMAIL, PHONE, PHONE_HREF, POPULAR_COURSES, QUICK_LINKS } from '../data/content'
 import { FillIcon, SOCIAL, SmartLink } from './ui'
 
 const heading =
@@ -45,8 +45,8 @@ export default function Footer() {
           <h5 className={heading}>Popular Courses</h5>
           <ul>
             {POPULAR_COURSES.map((c) => (
-              <li key={c} className="mb-2.5">
-                <SmartLink href={courseHref(c)} className={link}>{c}</SmartLink>
+              <li key={c.label} className="mb-2.5">
+                <SmartLink href={c.href} className={link}>{c.label}</SmartLink>
               </li>
             ))}
           </ul>
