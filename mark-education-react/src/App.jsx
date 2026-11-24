@@ -4,11 +4,13 @@ import TopBar from './components/TopBar'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import BackToTop from './components/BackToTop'
+import { EnquiryProvider } from './components/EnquiryProvider'
 import Home from './pages/Home'
 import CoursePage from './pages/CoursePage'
 import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
 import CoursesPage from './pages/CoursesPage'
+import VerifyPage from './pages/VerifyPage'
 
 /** Scroll to top on page change, or to the #section when the URL has a hash. */
 function ScrollManager() {
@@ -27,7 +29,7 @@ function ScrollManager() {
 
 function Layout() {
   return (
-    <>
+    <EnquiryProvider>
       <ScrollManager />
       <TopBar />
       <Header />
@@ -36,7 +38,7 @@ function Layout() {
       </main>
       <Footer />
       <BackToTop />
-    </>
+    </EnquiryProvider>
   )
 }
 
@@ -49,6 +51,7 @@ export default function App() {
         <Route path="courses" element={<CoursesPage />} />
         <Route path="courses/:slug" element={<CoursePage />} />
         <Route path="contact" element={<ContactPage />} />
+        <Route path="verify-certificate" element={<VerifyPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

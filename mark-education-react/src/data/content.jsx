@@ -21,20 +21,13 @@ export function courseHref(title) {
   return tab ? `/courses#${tab.id}` : '/courses'
 }
 
-export const COURSE_MENU = [
-  'Microsoft Office', 'CCOM – Office Management', 'Advanced Excel', 'Microsoft Excel with AI', 'Power BI',
-  'Data Analytics Using Excel', 'Tally Prime – Basic', 'Tally Prime – Intermediate', 'Tally Prime – Advanced',
-  'English Communication', 'Typing Course', 'SAP – SAP FICO', 'SAP – SAP MM', 'Digital Statutory E-Filing',
-  'GST Executive',
-]
-
-/** `match`: path prefix that marks the item active. `courseMenu`: dropdown built from COURSE_MENU. */
+/** `match`: path prefix that marks the item active. */
 export const NAV = [
   { label: 'Home', href: '/', match: '/' },
   { label: 'About Us', href: '/about', match: '/about' },
-  { label: 'Courses', href: '/courses', match: '/courses', courseMenu: true },
+  { label: 'Courses', href: '/courses', match: '/courses' },
   { label: 'Academic Partners', href: '/#partners' },
-  { label: 'Certificate Verification', href: '/#certification' },
+  { label: 'Certificate Verification', href: '/verify-certificate', match: '/verify-certificate' },
   { label: 'Contact Us', href: '/contact', match: '/contact' },
 ]
 
@@ -223,7 +216,7 @@ export const QUICK_LINKS = [
   { label: 'About Us', href: '/about' },
   { label: 'All Courses', href: '/courses' },
   { label: 'Academic Partners', href: '/#partners' },
-  { label: 'Certificate Verification', href: '/#certification' },
+  { label: 'Certificate Verification', href: '/verify-certificate' },
   { label: 'Contact Us', href: '/contact' },
   { label: 'Feedback', href: '/contact#enquiry' },
   { label: 'Mandatory Disclosure', href: '#' },

@@ -30,6 +30,13 @@ const STROKE = {
   clock: <><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></>,
   star: <path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" />,
   mail: <><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3.5 7l8.5 6 8.5-6" /></>,
+  search: <><circle cx="11" cy="11" r="7" /><path d="M20 20l-4-4" /></>,
+  hash: <path d="M5 9h14M5 15h14M10 3L8 21M16 3l-2 18" />,
+  calendar: <><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" /></>,
+  building: <><path d="M4 21V5a1 1 0 011-1h9a1 1 0 011 1v16M15 9h4a1 1 0 011 1v11M3 21h18" /><path d="M8 8h3M8 12h3M8 16h3" /></>,
+  award: <><circle cx="12" cy="9" r="6" /><path d="M8.5 13.5L7 22l5-3 5 3-1.5-8.5" /></>,
+  xCircle: <><circle cx="12" cy="12" r="9" /><path d="M15 9l-6 6M9 9l6 6" /></>,
+  alert: <><path d="M12 3l9.5 17h-19z" /><path d="M12 10v4M12 17.5h.01" /></>,
   checkCircle: <><path d="M9 12l2 2 4-4" /><circle cx="12" cy="12" r="9" /></>,
 }
 

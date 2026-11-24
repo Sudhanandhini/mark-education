@@ -28,7 +28,7 @@ export default function Home() {
       <Testimonials />
       <Faq />
       <Partners />
-      <Cta href="#enquiry" />
+      <Cta />
     </>
   )
 }

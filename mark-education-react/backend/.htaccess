@@ -1,0 +1,4 @@
+# Apache: block direct web access to internal files
+<FilesMatch "^(config\.php|database\.sql|README\.md)$">
+  Require all denied
+</FilesMatch>

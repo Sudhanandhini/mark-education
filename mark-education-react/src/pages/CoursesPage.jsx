@@ -172,7 +172,7 @@ export default function CoursesPage() {
       <Featured />
       <Catalogue />
       <Faq />
-      <Cta href="#enquiry" />
+      <Cta />
     </>
   )
 }

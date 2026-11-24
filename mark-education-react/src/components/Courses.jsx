@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { COURSE_TABS } from '../data/content'
 import { coursePageFor } from '../data/content'
 import { Eyebrow, Icon, Lead, Pill, Reveal, SmartLink, Title, btn, cn } from './ui'
@@ -88,18 +88,26 @@ export default function Courses() {
   const btnRefs = useRef({})
   const [ink, setInk] = useState({ left: 6, width: 0 })
 
-  const moveInk = () => {
+  const moveInk = useCallback(() => {
     const b = btnRefs.current[active]
-    if (b) setInk({ left: b.offsetLeft, width: b.offsetWidth })
-  }
+    if (!b) return
+    const next = { left: b.offsetLeft, width: b.offsetWidth }
+    // only update when the size actually changed — avoids a render loop
+    setInk((cur) => (cur.left === next.left && cur.width === next.width ? cur : next))
+  }, [active])
 
-  useLayoutEffect(moveInk, [active])
+  useLayoutEffect(moveInk, [moveInk])
 
+  // re-measure once web fonts load and whenever the window resizes
   useEffect(() => {
-    document.fonts?.ready.then(moveInk)
+    let alive = true
+    document.fonts?.ready.then(() => alive && moveInk())
     window.addEventListener('resize', moveInk)
-    return () => window.removeEventListener('resize', moveInk)
-  })
+    return () => {
+      alive = false
+      window.removeEventListener('resize', moveInk)
+    }
+  }, [moveInk])
 
   const tab = COURSE_TABS.find((t) => t.id === active)
 

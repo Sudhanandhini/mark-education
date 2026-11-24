@@ -1,6 +1,6 @@
 import logo from '../assets/logo.webp'
 import { CERT_WHY, OFFERS } from '../data/content'
-import { Eyebrow, Ic, Lead, Pill, Reveal, Title, btn, cn } from './ui'
+import { Eyebrow, Ic, Lead, Pill, Reveal, SmartLink, Title, btn, cn } from './ui'
 
 function Badge({ icon, title, sub, className }) {
   return (
@@ -138,9 +138,9 @@ export default function Certification() {
               <p className="text-[.9rem] text-[#c3d3e6]">Verify its authenticity instantly using your certificate number.</p>
             </div>
           </div>
-          <a href="#" className={cn(btn, 'relative rounded-[40px] bg-white text-brand-deep hover:bg-ink-dark hover:text-white')}>
+          <SmartLink href="/verify-certificate" className={cn(btn, 'relative rounded-[40px] bg-white text-brand-deep hover:bg-ink-dark hover:text-white')}>
             Verify Your Certificate &#10003;
-          </a>
+          </SmartLink>
         </Reveal>
       </div>
     </section>
