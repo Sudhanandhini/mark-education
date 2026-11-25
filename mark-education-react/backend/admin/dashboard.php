@@ -80,7 +80,7 @@ admin_header('Certificates', 'dashboard');
     <tbody>
     <?php foreach ($rows as $r): ?>
       <tr>
-        <td><a class="mono" href="/verify-certificate?no=<?= e(urlencode($r['certificate_no'])) ?>" target="_blank" rel="noopener" title="Open on verification page"><?= e($r['certificate_no']) ?></a></td>
+        <td><a class="mono" href="../verify-certificate?no=<?= e(urlencode($r['certificate_no'])) ?>" target="_blank" rel="noopener" title="Open on verification page"><?= e($r['certificate_no']) ?></a></td>
         <td><b><?= e($r['student_name']) ?></b><small class="muted block">s/d/o <?= e($r['parent_name']) ?></small></td>
         <td><?= e($r['course']) ?></td>
         <td><span class="grade"><?= e($r['grade']) ?></span></td>

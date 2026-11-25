@@ -22,22 +22,32 @@ Admin panel: `/admin/` (PHP) — add, edit, revoke and delete certificates.
 
 Default admin login: **markedu@admin** / **Markedu@2026** — change it from *Change Password* after the first login.
 
-## Deploying to a PHP host (cPanel / Apache)
+## Deploying to cPanel (one folder)
 
-1. `npm run build` → upload the contents of `dist/` to the web root (e.g. `public_html/`).
-2. Upload the `backend/` folder's **contents** to the same web root, so you get
-   `public_html/api/`, `public_html/admin/`, `public_html/lib/`, `public_html/config.php`.
-3. Create a MySQL database + user in cPanel, import `database.sql`
-   (remove the `CREATE DATABASE` / `USE` lines if your host names the DB for you).
-4. Edit `config.php` with the live DB name, user and password (or set the `MARK_DB_*` environment variables).
-5. Add an `.htaccess` in the web root so React routes work on refresh:
-   ```
-   RewriteEngine On
-   RewriteCond %{REQUEST_FILENAME} !-f
-   RewriteCond %{REQUEST_FILENAME} !-d
-   RewriteRule ^ index.html [L]
-   ```
-6. Log in to `/admin/`, change the password, delete the sample certificates and add real ones.
+```
+npm run build:cpanel
+```
+Builds the React site **and** adds this PHP backend into **`dist/`**, set up for the site folder
+**`/mark-edu/`** (i.e. `https://yourdomain/mark-edu/` → `public_html/mark-edu`).
+
+| Output | What to do with it |
+|---|---|
+| `dist/` | Upload its **contents** to `public_html/mark-edu` |
+| `deploy/dist.zip` | Same contents zipped — upload in File Manager and **Extract** |
+| `deploy/database.sql` | Import once in phpMyAdmin (no `CREATE DATABASE` line — cPanel creates the DB) |
+| `deploy/DEPLOY.txt` | Step-by-step checklist |
+
+A different folder? Change `--base=/mark-edu/` in the `build:cpanel` script in `package.json`
+(use `--base=/` for the domain root). Everything — links, API calls, `.htaccess` — follows it.
+
+`dist/.htaccess` is generated: React routes work on refresh, `/api` and `/admin` go to PHP,
+`config.php` / `lib/` are blocked, build assets are cached.
+
+**Live database settings:** copy `config.production.example.php` → `config.production.php`, fill in the
+cPanel database name/user/password, then build — it becomes `config.php` in `dist/`.
+(`config.production.php` is git-ignored.) Without it, edit `config.php` on the server.
+
+Requirements: PHP 8.0+ with `pdo_mysql`, Apache with `mod_rewrite` (standard on cPanel).
 
 ## Security notes
 - Passwords are stored as bcrypt hashes; the default admin is created on first visit to `/admin/`.

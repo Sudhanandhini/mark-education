@@ -49,7 +49,7 @@ export const COURSE_PAGES = {
       text: 'Train at an authorised centre and earn a certificate that employers recognise.',
     },
     brochure: powerBiBrochure,
-    brochureFile: '/brochures/mark-power-bi-brochure.jpg',
+    brochureFile: `${import.meta.env.BASE_URL}brochures/mark-power-bi-brochure.jpg`,
     enquiryCourse: 'Power BI',
   },
 
@@ -78,7 +78,7 @@ export const COURSE_PAGES = {
       text: 'Microsoft Office Specialist certification on course completion.',
     },
     brochure: excelBrochure,
-    brochureFile: '/brochures/mark-excel-brochure.jpg',
+    brochureFile: `${import.meta.env.BASE_URL}brochures/mark-excel-brochure.jpg`,
     enquiryCourse: 'Advanced Excel',
   },
 
@@ -110,7 +110,7 @@ export const COURSE_PAGES = {
       text: 'Of North Bengaluru — learn on the latest Tally Prime release.',
     },
     brochure: tallyBrochure,
-    brochureFile: '/brochures/mark-tally-prime-brochure.jpg',
+    brochureFile: `${import.meta.env.BASE_URL}brochures/mark-tally-prime-brochure.jpg`,
     enquiryCourse: 'Tally Prime',
   },
 }

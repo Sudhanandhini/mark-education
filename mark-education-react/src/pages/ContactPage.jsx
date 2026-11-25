@@ -5,7 +5,7 @@ import Cta from '../components/Cta'
 import { Eyebrow, FillIcon, Icon, Reveal, SOCIAL, Title, btnPrimary, cn } from '../components/ui'
 import { EMAIL, HOURS, MAP_QUERY, OFFICES, PHONE, PHONE_HREF } from '../data/content'
 
-const BANNER = 'https://images.unsplash.com/photo-1587560699334-bea93391dcef?auto=format&fit=crop&w=1800&q=70'
+import BANNER from '../assets/contact-banner.jpg'
 
 const INFO = [
   { icon: 'phone', label: 'Call Us', value: PHONE, href: PHONE_HREF, fill: true },
@@ -153,6 +153,7 @@ export default function ContactPage() {
         title={<>Contact <em>Us</em></>}
         text="Visit our centre, call us or send an enquiry — our counsellors are happy to help you choose the right course."
         image={BANNER}
+        position="center 58%"
       />
       <InfoCards />
       <Offices />

@@ -2,13 +2,24 @@ import { Link } from 'react-router-dom'
 import { Eyebrow } from './ui'
 
 /** Inner-page header: dark brand banner with a slow-zooming photo, breadcrumb and staggered title. */
-/** `position` sets which part of the photo stays visible (CSS background-position), e.g. 'center 20%'. */
-export default function PageBanner({ eyebrow, title, text, crumb, image, position = 'center' }) {
+/**
+ * `position` sets which part of the photo stays visible (CSS background-position), e.g. 'center 20%'.
+ * `fit="right"` shows the photo on the right half at banner height (good for small images or a
+ * subject that should sit beside the title), fading its left edge into the background.
+ */
+export default function PageBanner({ eyebrow, title, text, crumb, image, position = 'center', fit = 'cover' }) {
   const rise = (i) => ({ className: 'animate-rise', style: { animationDelay: `${0.1 + i * 0.12}s` } })
 
   return (
     <section className="relative overflow-hidden bg-brand-deep py-[110px] text-white max-lg:py-24 max-sm:py-[72px]">
-      <div className="absolute inset-0 animate-kenburns bg-cover" style={{ backgroundImage: `url('${image}')`, backgroundPosition: position }} />
+      {fit === 'right' ? (
+        <div
+          className="absolute inset-0 animate-kenburns bg-no-repeat [mask-image:linear-gradient(90deg,transparent_calc(100%-720px),#000_calc(100%-430px))]"
+          style={{ backgroundImage: `url('${image}')`, backgroundPosition: position === 'center' ? 'right center' : position, backgroundSize: 'auto 100%' }}
+        />
+      ) : (
+        <div className="absolute inset-0 animate-kenburns bg-cover" style={{ backgroundImage: `url('${image}')`, backgroundPosition: position }} />
+      )}
       <span className="absolute inset-0 bg-linear-100 from-brand-deep from-25% via-brand-deep/75 via-50% to-brand-deep/30 max-lg:via-brand-deep/85 max-lg:to-brand-deep/60" />
       <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.04)_1px,transparent_1px)] bg-size-[56px_56px] [mask-image:linear-gradient(90deg,#000,transparent_70%)]" />
 

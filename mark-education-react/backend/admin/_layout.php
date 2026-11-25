@@ -12,7 +12,7 @@ function admin_header(string $title, string $active = ''): void
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title><?= e($title) ?> · Mark Education Admin</title>
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/admin.css">
@@ -28,7 +28,7 @@ function admin_header(string $title, string $active = ''): void
       <a href="dashboard.php" class="<?= $active === 'dashboard' ? 'on' : '' ?>">Certificates</a>
       <a href="edit.php" class="<?= $active === 'add' ? 'on' : '' ?>">+ Add New</a>
       <a href="password.php" class="<?= $active === 'password' ? 'on' : '' ?>">Change Password</a>
-      <a href="/verify-certificate" target="_blank" rel="noopener">View Site ↗</a>
+      <a href="../verify-certificate" target="_blank" rel="noopener">View Site ↗</a>
     </nav>
     <form method="post" action="logout.php" class="logout">
       <?= csrf_field() ?>

@@ -4,7 +4,7 @@ import logo from '../assets/logo.webp'
 import Cta from '../components/Cta'
 import { Icon, Reveal, SmartLink, btnPrimary, cn } from '../components/ui'
 
-const API = `${import.meta.env.VITE_API_BASE ?? ''}/api/verify.php`
+const API = `${import.meta.env.VITE_API_BASE ?? import.meta.env.BASE_URL.replace(/\/$/, '')}/api/verify.php`
 const CERT_RE = /^[A-Z0-9-]{4,30}$/
 const normalize = (v) => v.replace(/\s+/g, '').toUpperCase()
 
