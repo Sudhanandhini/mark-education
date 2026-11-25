@@ -4,12 +4,13 @@ import PageBanner from '../components/PageBanner'
 import { Eyebrow, Icon, Lead, Reveal, Title, cn } from '../components/ui'
 import { GALLERY, GALLERY_CATEGORIES } from '../data/gallery'
 
-const BANNER = 'https://images.unsplash.com/photo-1675664535114-99fcb3c80c82?auto=format&fit=crop&w=1800&q=70'
+const BANNER = 'https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1800&q=70'
 
 /** Sized URL for Unsplash images; local images are returned unchanged. */
 const sized = (src, w) => (src.includes('images.unsplash.com') ? `${src}&w=${w}` : src)
 
-const SHAPE = { tall: 'aspect-[3/4]', wide: 'aspect-[4/3]', square: 'aspect-square' }
+// optional per-photo crop; photos without `shape` keep their natural proportions
+const SHAPE = { tall: 'aspect-[3/4] object-cover', wide: 'aspect-[4/3] object-cover', square: 'aspect-square object-cover' }
 const catLabel = (id) => GALLERY_CATEGORIES.find((c) => c.id === id)?.label ?? id
 
 /* ---------- Full-screen viewer ---------- */
@@ -151,15 +152,15 @@ export default function GalleryPage() {
         title={<>Our <em>Gallery</em></>}
         text="A glimpse of our classrooms, computer labs, events and the proud moments of our students."
         image={BANNER}
-        position="center 40%"
+        position="center 55%"
       />
 
       <section className="section-pad bg-white">
         <div className="wrap">
           <Reveal className="text-center">
             <Eyebrow center>Moments</Eyebrow>
-            <Title>Learning in <em>Action</em></Title>
-            <Lead center>Click any photo to view it full screen.</Lead>
+            <Title>Moments That <em>Matter</em></Title>
+            <Lead center>College partnerships, certificate ceremonies and our proud certified batches. Click any photo to view it full screen.</Lead>
           </Reveal>
 
           <Reveal className="mt-10 mb-10 flex justify-center">
@@ -180,7 +181,7 @@ export default function GalleryPage() {
                     )}
                   >
                     {f.label}
-                    <span className={cn('ml-2 rounded-[20px] px-1.5 py-px text-[.7rem]', on ? 'bg-white/20' : 'bg-brand-soft text-brand')}>{f.count}</span>
+                    {/* <span className={cn('ml-2 rounded-[20px] px-1.5 py-px text-[.7rem]', on ? 'bg-white/20' : 'bg-brand-soft text-brand')}>{f.count}</span> */}
                   </button>
                 )
               })}
@@ -202,7 +203,7 @@ export default function GalleryPage() {
                   src={sized(g.src, 800)}
                   alt={g.title}
                   loading="lazy"
-                  className={cn('w-full object-cover transition duration-700 ease-smooth group-hover:scale-110', SHAPE[g.shape] || SHAPE.square)}
+                  className={cn('h-auto w-full transition duration-700 ease-smooth group-hover:scale-110', SHAPE[g.shape])}
                 />
                 <span className="absolute inset-0 bg-linear-180 from-transparent from-40% to-brand-deep/90 opacity-0 transition duration-500 group-hover:opacity-100 max-lg:opacity-100" />
                 <span className="absolute inset-x-5 bottom-5 translate-y-3 text-white opacity-0 transition duration-500 ease-smooth group-hover:translate-y-0 group-hover:opacity-100 max-lg:translate-y-0 max-lg:opacity-100">

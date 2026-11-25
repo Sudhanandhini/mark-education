@@ -9,7 +9,7 @@ export default function PageBanner({ eyebrow, title, text, crumb, image, positio
   return (
     <section className="relative overflow-hidden bg-brand-deep py-[110px] text-white max-lg:py-24 max-sm:py-[72px]">
       <div className="absolute inset-0 animate-kenburns bg-cover" style={{ backgroundImage: `url('${image}')`, backgroundPosition: position }} />
-      <span className="absolute inset-0 bg-linear-100 from-brand-deep from-30% via-brand-deep/90 to-brand-deep/55" />
+      <span className="absolute inset-0 bg-linear-100 from-brand-deep from-25% via-brand-deep/75 via-50% to-brand-deep/30 max-lg:via-brand-deep/85 max-lg:to-brand-deep/60" />
       <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.04)_1px,transparent_1px)] bg-size-[56px_56px] [mask-image:linear-gradient(90deg,#000,transparent_70%)]" />
 
       {/* decorative rings */}

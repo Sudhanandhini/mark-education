@@ -8,7 +8,7 @@ import WhyChoose from '../components/WhyChoose'
 import { Eyebrow, Ic, Icon, Lead, Reveal, Title, cn } from '../components/ui'
 import { MILESTONES, MISSION, VALUES, VISION } from '../data/content'
 
-const BANNER = 'https://images.unsplash.com/photo-1709290749293-c6152a187b14?auto=format&fit=crop&w=1800&q=70'
+const BANNER = 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1800&q=70'
 
 function Journey() {
   return (

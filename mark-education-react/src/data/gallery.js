@@ -1,41 +1,57 @@
 /**
- * Gallery photos.
+ * Gallery photos — loaded automatically from  src/assets/images/
  *
- * To use your own photos:
- *   1. Put the image files in  public/gallery/   (e.g. public/gallery/lab-1.jpg)
- *   2. Change `src` to '/gallery/lab-1.jpg'  (no need for a separate thumbnail)
- *   3. Update `title` and `category`.
- *
- * `shape` controls the tile in the grid: 'tall' | 'wide' | 'square'.
- * The stock photos below are placeholders.
+ * To add a photo: drop the file into src/assets/images/ (jpg, png or webp).
+ * It appears in the gallery automatically, sorted by file name.
+ * To give it a caption/category, add an entry to CAPTIONS below using the
+ * first two characters of the file name (e.g. "21" for "21_my_photo.jpg").
  */
 
 export const GALLERY_CATEGORIES = [
-  { id: 'classrooms', label: 'Classrooms' },
-  { id: 'labs', label: 'Computer Labs' },
-  { id: 'events', label: 'Events & Activities' },
-  { id: 'achievements', label: 'Achievements' },
+  { id: 'partnerships', label: 'College Partnerships' },
+  { id: 'certificates', label: 'Certificate Ceremonies' },
+  { id: 'batches', label: 'Certified Batches' },
+  { id: 'events', label: 'Events & Programs' },
 ]
 
-const unsplash = (id) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&q=75`
+// Captions keyed by the file-name prefix (01, 02, …)
+const CAPTIONS = {
+  '01': { title: 'Certificate awarded to a student', category: 'certificates' },
+  '02': { title: 'Partnership with St Claret College', category: 'partnerships' },
+  '03': { title: 'Partnership with St Claret Pre University College', category: 'partnerships' },
+  '04': { title: 'Partnership with Soundarya PU College', category: 'partnerships' },
+  '05': { title: 'Certificates of merit presented', category: 'certificates' },
+  '06': { title: 'Tally with Supply Chain Management — certificate facilitation 2025–26', category: 'certificates' },
+  '07': { title: 'Students with their certificates', category: 'batches' },
+  '08': { title: 'Certificate felicitation ceremony', category: 'certificates' },
+  '09': { title: 'Partnership with Dr NSAM PU College', category: 'partnerships' },
+  '10': { title: 'Partnership with Jnana Jyothi Degree College', category: 'partnerships' },
+  '11': { title: 'Certified batch with faculty', category: 'batches' },
+  '12': { title: 'Partnership with Seshadripuram First Grade College, Yelahanka', category: 'partnerships' },
+  '13': { title: 'Partnership with Bishop Cotton Academy of Professional Management, Yelahanka', category: 'partnerships' },
+  '14': { title: 'Certified students batch', category: 'batches' },
+  '15': { title: 'Students receive their certificates', category: 'batches' },
+  '16': { title: 'Proud certificate holders', category: 'batches' },
+  '17': { title: 'Programme with faculty and guests', category: 'events' },
+  '18': { title: 'Pragathi Skill Academy programme', category: 'events' },
+  '19': { title: 'Certificate distribution — large batch', category: 'batches' },
+  '20': { title: 'Certified students with their certificates', category: 'batches' },
+}
 
-export const GALLERY = [
-  { src: unsplash('1743834147172-37c12011b321'), title: 'Interactive classroom session', category: 'classrooms', shape: 'tall' },
-  { src: unsplash('1517694712202-14dd9538aa97'), title: 'Hands-on practical lab', category: 'labs', shape: 'wide' },
-  { src: unsplash('1522202176988-66273c2fd55f'), title: 'Group study & discussion', category: 'events', shape: 'square' },
-  { src: unsplash('1541339907198-e08756dedf3f'), title: 'Certification ceremony', category: 'achievements', shape: 'wide' },
-  { src: unsplash('1524178232363-1fb2b075b655'), title: 'Lecture by industry trainer', category: 'classrooms', shape: 'wide' },
-  { src: unsplash('1551288049-bebda4e38f71'), title: 'Power BI dashboard practice', category: 'labs', shape: 'square' },
-  { src: unsplash('1523240795612-9a054b0db644'), title: 'Student collaboration', category: 'events', shape: 'tall' },
-  { src: unsplash('1571260899304-425eee4c7efc'), title: 'Proud moment for our students', category: 'achievements', shape: 'square' },
-  { src: unsplash('1509062522246-3755977927d7'), title: 'Batch in progress', category: 'classrooms', shape: 'square' },
-  { src: unsplash('1498050108023-c5249f4df085'), title: 'Individual system for every student', category: 'labs', shape: 'tall' },
-  { src: unsplash('1529390079861-591de354faf5'), title: 'Workshop & seminar', category: 'events', shape: 'wide' },
-  { src: unsplash('1562774053-701939374585'), title: 'Our learning centre', category: 'achievements', shape: 'tall' },
-  { src: unsplash('1606761568499-6d2451b23c66'), title: 'Focused learning environment', category: 'classrooms', shape: 'wide' },
-  { src: unsplash('1460925895917-afdab827c52f'), title: 'Advanced Excel & analytics', category: 'labs', shape: 'wide' },
-  { src: unsplash('1546410531-bb4caa6b424d'), title: 'Student activities', category: 'events', shape: 'square' },
-  { src: unsplash('1554224155-6726b3ff858f'), title: 'Tally & GST training', category: 'achievements', shape: 'wide' },
-  { src: unsplash('1580582932707-520aed937b7b'), title: 'Faculty guidance', category: 'classrooms', shape: 'tall' },
-  { src: unsplash('1531482615713-2afd69097998'), title: 'Team project work', category: 'labs', shape: 'square' },
-]
+// Vite bundles every image in the folder (hashed URLs, cached by the browser)
+const files = import.meta.glob('../assets/images/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}', {
+  eager: true,
+  import: 'default',
+})
+
+export const GALLERY = Object.entries(files)
+  .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
+  .map(([path, src]) => {
+    const name = path.split('/').pop()
+    const info = CAPTIONS[name.slice(0, 2)] || {}
+    return {
+      src,
+      title: info.title || 'Moments at Mark Education Academy',
+      category: info.category || 'events',
+    }
+  })

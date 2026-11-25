@@ -5,7 +5,7 @@ import PageBanner from '../components/PageBanner'
 import Partners from '../components/Partners'
 import { Eyebrow, Ic, Icon, Lead, Reveal, SmartLink, Title, btn, cn } from '../components/ui'
 
-const BANNER = 'https://images.unsplash.com/photo-1756885427018-86c8c5969c5b?auto=format&fit=crop&w=1800&q=70'
+const BANNER = 'https://images.unsplash.com/photo-1781246435700-afec19012b45?auto=format&fit=crop&w=1800&q=70'
 
 const ACCREDITATIONS = [
   {
@@ -195,7 +195,7 @@ export default function AcademicPartnersPage() {
         title={<>Academic <em>Partners</em></>}
         text="Authorised training partnerships and certifications that make your Mark Education certificate count."
         image={BANNER}
-        position="center 18%"
+        position="center 60%"
       />
       <Accreditations />
       <Benefits />
