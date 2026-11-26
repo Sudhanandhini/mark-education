@@ -69,8 +69,8 @@ respond(200, [
         'parentName'      => $row['parent_name'],
         'course'          => $row['course'],
         'grade'           => $row['grade'],
-        'releaseNo'       => $row['release_no'],
-        'certificateDate' => pretty_date($row['certificate_date']),
+        'software'        => $row['release_no'], // "Software" line on the certificate (column kept as release_no)
+        'certificateDate' => ($d = DateTime::createFromFormat('Y-m-d', $row['certificate_date'])) ? $d->format('d-M-Y') : $row['certificate_date'],
         'institution'     => $row['institution'],
         'placeOfIssue'    => $row['place_of_issue'],
         'status'          => $row['status'],

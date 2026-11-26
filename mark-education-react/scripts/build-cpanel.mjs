@@ -152,7 +152,10 @@ UPDATING THE SITE LATER
 
 step('Creating deploy/dist.zip …')
 const entries = readdirSync(dist) // includes .htaccess; avoids './' prefixes in the archive
-const zip = spawnSync('tar', ['-a', '-c', '-f', join(deploy, 'dist.zip'), '-C', dist, ...entries], { stdio: 'pipe' })
+// Windows' own bsdtar can write .zip (Git Bash's GNU tar on PATH cannot)
+const winTar = join(process.env.SystemRoot || 'C:\\Windows', 'System32', 'tar.exe')
+const tarBin = process.platform === 'win32' && existsSync(winTar) ? winTar : 'tar'
+const zip = spawnSync(tarBin, ['-a', '-c', '-f', join(deploy, 'dist.zip'), '-C', dist, ...entries], { stdio: 'pipe' })
 if (zip.status === 0) console.log('  ✓ deploy/dist.zip')
 else warn('Could not create the zip automatically — zip the contents of dist/ yourself.')
 

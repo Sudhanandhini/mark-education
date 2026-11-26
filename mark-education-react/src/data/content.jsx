@@ -1,3 +1,5 @@
+import { detailSlugFor } from './courseDetails'
+
 const u = (id, w = 1200) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=75`
 
 export const PHONE = '+91 80954 88880'
@@ -7,6 +9,8 @@ export const WEBSITE = 'www.markeducationacademy.com'
 
 /** Courses that have their own detail page (/courses/:slug). */
 export function coursePageFor(title) {
+  const slug = detailSlugFor(title)
+  if (slug) return `/courses/${slug}`
   if (/power bi/i.test(title)) return '/courses/power-bi'
   if (/excel/i.test(title)) return '/courses/excel'
   if (/tally/i.test(title)) return '/courses/tally-prime'
@@ -17,7 +21,7 @@ export function coursePageFor(title) {
 export const NAV = [
   { label: 'Home', href: '/', match: '/' },
   { label: 'About Us', href: '/about', match: '/about' },
-  { label: 'Courses', href: '/courses', match: '/courses' },
+  { label: 'Courses', href: '/courses', match: '/courses', mega: true },
   { label: 'Gallery', href: '/gallery', match: '/gallery' },
   { label: 'Academic Partners', href: '/academic-partners', match: '/academic-partners' },
   { label: 'Certificate Verification', href: '/verify-certificate', match: '/verify-certificate' },

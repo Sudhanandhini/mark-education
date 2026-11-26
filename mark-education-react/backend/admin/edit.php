@@ -68,10 +68,10 @@ admin_header($id ? 'Edit Certificate' : 'Add Certificate', $id ? 'dashboard' : '
   <div class="grid-2">
     <?php field('certificate_no', 'Certificate Number', $data, $errors, 'text', [], 'e.g. ME100001 — letters, digits, hyphens'); ?>
     <?php field('status', 'Status', $data, $errors, 'select', ['active' => 'Active (shows as verified)', 'revoked' => 'Revoked (shows as not valid)']); ?>
-    <?php field('course', 'Certification / Course', $data, $errors, 'text', [], 'e.g. Tally Prime – Advanced'); ?>
+    <?php field('course', 'Certification / Course', $data, $errors, 'text', [], 'e.g. Tally Prime Foundation · Advanced Excel · Power BI Data Analytics (sets the certificate colour)'); ?>
     <?php field('grade', 'Grade', $data, $errors, 'select', $gradeOptions); ?>
     <?php field('certificate_date', 'Certificate Date', $data, $errors, 'date'); ?>
-    <?php field('release_no', 'Release No.', $data, $errors, 'text', [], 'e.g. Prime 6.0'); ?>
+    <?php field('release_no', 'Software', $data, $errors, 'text', [], 'e.g. Tally Prime · Microsoft Office Excel · Microsoft Power BI'); ?>
   </div>
 
   <h3 class="section-title">Student</h3>

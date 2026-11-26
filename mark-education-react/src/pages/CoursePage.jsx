@@ -6,6 +6,8 @@ import { FillIcon, Icon, Reveal, cn } from '../components/ui'
 import { PHONE, PHONE_HREF, WEBSITE } from '../data/content'
 import { COURSE_PAGES, COURSE_PAGE_LIST, GOOGLE_RATING, SERVICES, YEARS_EXCELLENCE } from '../data/coursePages'
 import { useInView } from '../hooks/useInView'
+import { COURSE_DETAILS } from '../data/courseDetails'
+import CourseDetailPage from './CourseDetailPage'
 
 /* ---------- Themed building blocks (colours come from CSS vars set on the page root) ---------- */
 
@@ -220,6 +222,8 @@ const FEATURES = [
   'Morning, evening & weekend batches',
 ]
 
+const ProgramLink = ({ href, ...rest }) => (href ? <Link to={href} {...rest} /> : <a href="#enquiry" {...rest} />)
+
 function Programs({ course }) {
   return (
     <section className="section-pad">
@@ -232,8 +236,8 @@ function Programs({ course }) {
           <ul className="mt-8 flex flex-col gap-3.5">
             {course.programs.map((p, i) => (
               <Reveal as="li" key={p.title} delay={`${i * 0.08}s`}>
-                <a
-                  href="#enquiry"
+                <ProgramLink
+                  href={p.href}
                   className={cn(
                     'group relative flex items-center gap-5 overflow-hidden rounded-xl border border-line bg-white px-6 py-5 transition-all duration-350 ease-smooth',
                     'hover:translate-x-1.5 hover:border-(--c)/40 hover:shadow-soft',
@@ -253,7 +257,7 @@ function Programs({ course }) {
                   <span className="font-serif text-[2.2rem] font-bold leading-none text-(--c)/15 max-sm:hidden">
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                </a>
+                </ProgramLink>
               </Reveal>
             ))}
           </ul>
@@ -504,8 +508,14 @@ function OtherCourses({ current }) {
   )
 }
 
+/** /courses/:slug: a single-course detail page if one exists, else the flyer-style family page (Excel, Tally Prime). */
 export default function CoursePage() {
   const { slug } = useParams()
+  const detail = COURSE_DETAILS[slug]
+  return detail ? <CourseDetailPage key={slug} course={detail} /> : <FlyerCoursePage key={slug} slug={slug} />
+}
+
+function FlyerCoursePage({ slug }) {
   const course = COURSE_PAGES[slug]
 
   useEffect(() => {

@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import logo from '../assets/logo.webp'
+import CertificateDoc from '../components/CertificateDoc'
 import Cta from '../components/Cta'
 import { Icon, Reveal, SmartLink, btnPrimary, cn } from '../components/ui'
 
 const API = `${import.meta.env.VITE_API_BASE ?? import.meta.env.BASE_URL.replace(/\/$/, '')}/api/verify.php`
 const CERT_RE = /^[A-Z0-9-]{4,30}$/
 const normalize = (v) => v.replace(/\s+/g, '').toUpperCase()
+const verifyUrl = (no) => `${window.location.origin}${import.meta.env.BASE_URL}verify-certificate?no=${encodeURIComponent(no)}`
 
 /* ---------- Hero illustration (animated SVG) ---------- */
 function Illustration() {
@@ -151,23 +152,27 @@ function VerifiedCard({ c, grades }) {
           </div>
         </div>
 
-        <div className="p-5 max-sm:p-3">
-          <div className={cn('rounded-xl border-2 p-6 max-sm:p-4', revoked ? 'border-[#f2c4c4] bg-[#fffafa]' : 'border-brand-soft bg-[linear-gradient(135deg,#fff,#f6f9fd)]')}>
-            <div className="mb-6 flex items-center justify-between gap-4">
-              <img src={logo} alt="Mark Education Academy" className="h-12 w-auto" />
+        <div className="grid grid-cols-[minmax(0,500px)_1fr] items-start gap-8 p-7 max-lg:grid-cols-1 max-sm:p-4">
+          <div className="mx-auto w-full max-w-[500px] overflow-hidden rounded-lg shadow-[0_18px_40px_-18px_rgba(11,37,69,.45)]">
+            <CertificateDoc c={c} verifyUrl={verifyUrl(c.certificateNo)} revoked={revoked} />
+          </div>
+
+          <div>
+            <div className="mb-5 flex items-center justify-between gap-3">
+              <h3 className="font-serif text-[1.6rem] font-semibold text-ink-dark">Certificate Details</h3>
               <span className={cn('rounded-full px-3 py-1 text-[.7rem] font-extrabold uppercase tracking-[.12em]', revoked ? 'bg-[#fdecec] text-[#a12c2c]' : 'bg-[#e9f7ef] text-[#1f6e41]')}>
                 {revoked ? '✕ Revoked' : '✓ Authentic'}
               </span>
             </div>
-            <div className="grid grid-cols-2 gap-x-10 gap-y-5 max-sm:grid-cols-1">
-              <Detail icon="user" label="Name" value={c.name} />
+            <div className="grid gap-5">
+              <Detail icon="user" label="Awarded to" value={c.name} />
+              <Detail icon="users" label="Son / Daughter / Spouse of" value={c.parentName} />
+              <Detail icon="award" label="Course Completed" value={c.course} />
+              <Detail icon="star" label="Grade Secured" value={c.grade} />
               <Detail icon="hash" label="Certificate Number" value={c.certificateNo} />
-              <Detail icon="users" label="Parent Name" value={c.parentName} />
-              <Detail icon="ledger" label="Release No." value={c.releaseNo} />
-              <Detail icon="award" label="Certification" value={c.course} />
-              <Detail icon="calendar" label="Certificate Date" value={c.certificateDate} />
-              <Detail icon="star" label="Grade" value={c.grade} />
-              <Detail icon="building" label="Name of Institution" value={`${c.institution}${c.placeOfIssue ? `, ${c.placeOfIssue}` : ''}`} />
+              <Detail icon="calendar" label="Date Certified" value={c.certificateDate} />
+              <Detail icon="building" label="Centre" value={`${c.institution}${c.placeOfIssue ? `, ${c.placeOfIssue}` : ''}`} />
+              {c.software && <Detail icon="ledger" label="Software" value={c.software} />}
             </div>
           </div>
         </div>
@@ -213,67 +218,111 @@ function LoadingCard() {
   )
 }
 
-/* ---------- Annotated sample certificate ---------- */
-function Label({ side, children }) {
+/* ---------- Sample certificates (one per course colour) ---------- */
+const SAMPLES = [
+  { course: 'Tally Prime Foundation', software: 'Tally Prime', name: 'Ananya R Rao', parentName: 'Ramesh Rao', certificateNo: 'ME100001', certificateDate: '29-Jan-2026' },
+  { course: 'Advanced Excel', software: 'Microsoft Office Excel', name: 'Kiran S Kumar', parentName: 'Suresh Kumar', certificateNo: 'ME100002', certificateDate: '14-Mar-2026' },
+  { course: 'Power BI Data Analytics', software: 'Microsoft Power BI', name: 'Meera K Shetty', parentName: 'Kishore Shetty', certificateNo: 'ME100004', certificateDate: '02-Nov-2025' },
+].map((x) => ({ grade: 'A+', institution: 'Mark Education Academy', placeOfIssue: 'Bengaluru', ...x }))
+
+/* ---------- Annotated sample: what each part of the certificate means ----------
+ * y = vertical centre of the field, box = [left, top, right, bottom] — all in % of the
+ * certificate (matches the layout in CertificateDoc, which is 1414 × 2000 px).
+ */
+const PARTS = [
+  { side: 'left', y: 28.9, box: [18, 26.4, 82, 31.4], label: 'Name', text: 'Full name of the student, exactly as registered at admission.' },
+  { side: 'left', y: 38.5, box: [27, 36.5, 73, 40.5], label: 'Parent / Spouse Name', text: "Father's, mother's or spouse's name — helps tell apart students with the same name." },
+  { side: 'right', y: 50, box: [14, 47.6, 86, 52.4], label: 'Course Name', text: 'The programme the student has successfully completed.' },
+  { side: 'right', y: 55.3, box: [32, 53.5, 68, 57.1], label: 'Grade', text: 'Final grade secured in the course assessment. The grade description is shown when you verify.' },
+  { side: 'left', y: 66.4, box: [6.5, 64.9, 56, 67.9], label: 'Centre Name', text: 'The Mark Education centre where the training was completed.' },
+  { side: 'right', y: 66.4, box: [58, 64.9, 93, 67.9], label: 'Certificate Number', text: 'Unique number of this certificate. Enter it in the box above to verify it online.' },
+  { side: 'left', y: 73.2, box: [6.5, 70.2, 60, 76.2], label: 'Issue Details', text: 'Place of issue, the date the certificate was awarded and the software / release studied.' },
+  { side: 'right', y: 75.2, box: [72, 67, 96, 83.2], label: 'QR Code', text: 'Scan with any phone camera to open this certificate on our verification page instantly.' },
+  { side: 'right', y: 90, box: [72, 85, 96, 95], label: 'Signatory Authority', text: 'Signature of the authorised centre head who issued the certificate.' },
+].map((p, i) => ({ ...p, n: i + 1 }))
+
+function Num({ n, className }) {
   return (
-    <span
-      className={cn(
-        'absolute top-1/2 flex -translate-y-1/2 items-center max-xl:hidden',
-        side === 'left' ? 'right-full flex-row' : 'left-full flex-row-reverse',
-      )}
-    >
-      <span className="whitespace-nowrap rounded-md border border-line bg-white px-3 py-1 text-[.86rem] font-bold text-ink-dark shadow-[0_4px_12px_rgba(11,37,69,.08)]">
-        {children}
-      </span>
-      <span className="w-[86px] border-t border-dashed border-brand/50" />
-      <span className={cn('size-0 border-y-[5px] border-y-transparent', side === 'left' ? 'border-l-[7px] border-l-brand' : 'border-r-[7px] border-r-brand')} />
-    </span>
+    <span className={cn('grid size-6 shrink-0 place-items-center rounded-full bg-brand text-[.7rem] font-extrabold text-white', className)}>{n}</span>
   )
 }
 
-const box = 'rounded-md border border-brand/40 bg-white/80 px-3 py-1'
-
-function Row({ left, right, center, start, end, className }) {
+function Callouts({ side }) {
+  const left = side === 'left'
   return (
-    <div className={cn('relative flex items-center', className)}>
-      {left && <Label side="left">{left}</Label>}
-      {center ? (
-        <>
-          <span className={cn('flex-1', left && 'border-t border-dashed border-brand/40 max-xl:border-0')} />
-          {center}
-          <span className={cn('flex-1', right && 'border-t border-dashed border-brand/40 max-xl:border-0')} />
-        </>
-      ) : (
-        <>
-          {start}
-          <span className="flex-1" />
-          {end}
-        </>
-      )}
-      {right && <Label side="right">{right}</Label>}
+    <div className="relative max-lg:hidden">
+      {PARTS.filter((p) => p.side === side).map((p) => (
+        <div
+          key={p.n}
+          className={cn('absolute inset-x-0 flex -translate-y-1/2 items-center', !left && 'flex-row-reverse')}
+          style={{ top: `${p.y}%` }}
+        >
+          <span className={cn('flex shrink-0 items-center gap-2 rounded-lg border border-line bg-white py-1.5 text-[.84rem] font-bold text-ink-dark shadow-soft', left ? 'pl-1.5 pr-3' : 'pl-3 pr-1.5 flex-row-reverse')}>
+            <Num n={p.n} />
+            {p.label}
+          </span>
+          <span className="h-0 flex-1 border-t-[1.5px] border-dashed border-brand/50" />
+        </div>
+      ))}
     </div>
   )
 }
 
-/** Deterministic QR-like pattern (decorative). */
-function FakeQr() {
-  const cells = []
-  let seed = 7
-  for (let y = 0; y < 21; y++)
-    for (let x = 0; x < 21; x++) {
-      const finder = (x < 7 && y < 7) || (x > 13 && y < 7) || (x < 7 && y > 13)
-      seed = (seed * 9301 + 49297) % 233280
-      if (finder) {
-        const fx = x > 13 ? x - 14 : x
-        const fy = y > 13 ? y - 14 : y
-        const ring = fx === 0 || fx === 6 || fy === 0 || fy === 6 || (fx > 1 && fx < 5 && fy > 1 && fy < 5)
-        if (ring) cells.push([x, y])
-      } else if (seed / 233280 > 0.55) cells.push([x, y])
-    }
+function AnnotatedCertificate() {
+  const sample = SAMPLES[0]
   return (
-    <svg viewBox="0 0 21 21" className="size-full" shapeRendering="crispEdges" aria-hidden="true">
-      {cells.map(([x, y]) => <rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" fill="#232323" />)}
-    </svg>
+    <div className="mt-12">
+      <Reveal className="mx-auto grid max-w-[1080px] grid-cols-[1fr_minmax(0,460px)_1fr] max-lg:grid-cols-1">
+        <Callouts side="left" />
+
+        <div className="relative mx-auto w-full max-w-[460px]">
+          <div className="overflow-hidden rounded-lg shadow-[0_24px_60px_-24px_rgba(11,37,69,.45)]">
+            <CertificateDoc c={sample} watermark="Sample" verifyUrl={verifyUrl(sample.certificateNo)} />
+          </div>
+
+          {/* highlight boxes + connectors from the certificate edge */}
+          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+            {PARTS.map((p) => {
+              const [l, t, r, b] = p.box
+              const left = p.side === 'left'
+              return (
+                <div key={p.n}>
+                  <span
+                    className="absolute rounded-md border-[1.5px] border-brand/70 bg-brand/[.04]"
+                    style={{ left: `${l}%`, top: `${t}%`, width: `${r - l}%`, height: `${b - t}%` }}
+                  >
+                    <Num n={p.n} className="absolute -top-2.5 -left-2.5 size-5 text-[.62rem] lg:hidden" />
+                  </span>
+                  <span
+                    className="absolute h-0 border-t-[1.5px] border-dashed border-brand/50 max-lg:hidden"
+                    style={left ? { left: 0, width: `${l}%`, top: `${p.y}%` } : { left: `${r}%`, right: 0, top: `${p.y}%` }}
+                  />
+                  <span
+                    className={cn('absolute size-0 -translate-y-1/2 border-y-[5px] border-y-transparent max-lg:hidden', left ? 'border-l-[7px] border-l-brand' : 'border-r-[7px] border-r-brand')}
+                    style={left ? { left: `calc(${l}% - 7px)`, top: `${p.y}%` } : { left: `${r}%`, top: `${p.y}%` }}
+                  />
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        <Callouts side="right" />
+      </Reveal>
+
+      {/* explanation of every numbered part */}
+      <div className="mx-auto mt-12 grid max-w-[1080px] grid-cols-3 gap-4 max-lg:grid-cols-2 max-sm:grid-cols-1">
+        {PARTS.map((p, i) => (
+          <Reveal key={p.n} delay={`${(i % 3) * 0.08}s`} className="flex gap-3 rounded-xl border border-line bg-white p-4 shadow-soft">
+            <Num n={p.n} className="mt-0.5" />
+            <div>
+              <h4 className="text-[.95rem] font-bold text-ink-dark">{p.label}</h4>
+              <p className="mt-1 text-[.86rem] leading-relaxed text-ink-mid">{p.text}</p>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </div>
   )
 }
 
@@ -283,69 +332,28 @@ function SampleCertificate() {
       <div className="wrap">
         <Reveal className="text-center">
           <h2 className="font-serif text-[length:clamp(2rem,4vw,2.8rem)] font-semibold text-ink-dark">Sample <em className="text-brand">Certificate</em></h2>
-          <p className="mx-auto mt-2 max-w-[560px] text-ink-mid">Here&apos;s where to find each detail on your Mark Education certificate.</p>
+          <p className="mx-auto mt-2 max-w-[600px] text-ink-mid">
+            Here is what each part of a Mark Education certificate means. Every certificate carries a unique <b className="text-ink-dark">Certificate Number</b> (next to the QR code). Enter it above, or scan the QR code, to verify.
+          </p>
         </Reveal>
 
-        <Reveal className="mx-auto mt-12 w-full max-w-[600px]">
-          <div className="rounded-[6px] bg-brand-soft p-6 shadow-soft max-sm:p-3">
-            <div className="relative rounded-[28px] bg-white px-9 pt-8 pb-7 max-sm:rounded-2xl max-sm:px-4">
-              {/* watermark + corner swoosh, clipped to the card (labels stay outside) */}
-              <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]" aria-hidden="true">
-                <span className="absolute top-[44%] left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-[24deg] font-serif text-[7rem] font-bold text-ink/[.07] max-sm:text-[4rem]">Sample</span>
-                <svg viewBox="0 0 200 120" className="absolute right-0 bottom-0 w-[44%]">
-                  <path d="M10 118 C70 70 130 60 198 40" fill="none" stroke="#0059A8" strokeWidth="7" opacity=".85" />
-                  <path d="M184 118 L200 78" fill="none" stroke="#F2B705" strokeWidth="6" />
-                </svg>
-              </div>
+        <AnnotatedCertificate />
 
-              <div className="relative flex justify-end">
-                <img src={logo} alt="" className="h-10 w-auto max-sm:h-8" />
-              </div>
-              <h3 className="relative mt-7 text-center font-serif text-[2.6rem] font-semibold leading-none text-ink-dark max-sm:text-[1.9rem]">Certificate of Merit</h3>
-
-              <div className="relative mt-6 space-y-2 text-center text-[.88rem] text-ink">
-                <p>This certificate is awarded to</p>
-                <Row left="Name" center={<b className={cn(box, 'font-sans text-[1.3rem] font-extrabold tracking-wide text-brand max-sm:text-[1rem]')}>ANANYA R RAO</b>} />
-                <p className="pt-1">Son / Daughter / Spouse of</p>
-                <Row left={<>Parent / <br />Spouse name</>} center={<b className={cn(box, 'text-[1.05rem] font-extrabold text-ink-dark')}>RAMESH RAO</b>} />
-                <p className="pt-1">for successfully completing</p>
-                <Row right="Course Name" center={<b className={cn(box, 'font-serif text-[1.5rem] font-semibold text-brand')}>Tally Prime – Advanced</b>} />
-                <Row right="Grade" center={<span className={cn(box, 'text-[.9rem]')}>and securing Grade <b className="text-[1.05rem] text-ink-dark">A<sup>+</sup></b></span>} />
-              </div>
-
-              <Row
-                className="relative mt-9 text-[.8rem]"
-                left="Centre Name"
-                right="Certificate Number"
-                start={<span className={box}><span className="text-brand">Centre:</span> Mark Education Academy</span>}
-                end={<span className={box}><span className="text-brand">Certificate No.:</span> <b>ME100001</b></span>}
-              />
-
-              <Row
-                className="relative mt-8 text-[.72rem] leading-snug"
-                left="Issue / Date / Release"
-                right="Signatory Authority"
-                start={<span className={cn(box, 'block text-left')}>Place of Issue: Bengaluru<br />Date Certified: 29-Jan-2026<br />Release: Prime 6.0</span>}
-                end={<span className={cn(box, 'block text-left')}><b>Authorised Signatory</b><br />Director<br />Mark Education Academy</span>}
-              />
-
-              <div className="relative mt-7 flex items-end justify-between gap-4">
-                <p className="max-w-[300px] text-[.64rem] leading-snug text-ink-mid">
-                  Mark Education Academy, an ISO 9001:2015 certified institute. Verify this certificate online at our website using the certificate number.
-                </p>
-                <Row
-                  right="QR Code"
-                  center={
-                    <span className="flex flex-col items-center">
-                      <span className={cn(box, 'block size-[62px] bg-white p-1')}><FakeQr /></span>
-                      <small className="mt-1 rounded bg-white px-1 text-[.6rem] text-ink-mid">Scan to verify</small>
-                    </span>
-                  }
-                />
-              </div>
-            </div>
-          </div>
+        <Reveal className="mt-20 text-center">
+          <h3 className="font-serif text-[length:clamp(1.6rem,3vw,2.2rem)] font-semibold text-ink-dark">Certificate <em className="text-brand">Designs</em></h3>
+          <p className="mx-auto mt-2 max-w-[560px] text-ink-mid">The colour of the certificate depends on the course. All designs carry the same details.</p>
         </Reveal>
+
+        <div className="mx-auto mt-10 grid max-w-[1080px] grid-cols-3 gap-8 max-lg:grid-cols-2 max-sm:grid-cols-1">
+          {SAMPLES.map((c, i) => (
+            <Reveal key={c.course} delay={`${i * 0.1}s`} className={cn('mx-auto w-full max-w-[360px]', i === 2 && 'max-lg:col-span-2 max-sm:col-span-1')}>
+              <div className="overflow-hidden rounded-lg shadow-[0_18px_40px_-20px_rgba(11,37,69,.45)] transition-[translate,box-shadow] duration-300 hover:-translate-y-1.5 hover:shadow-[0_28px_50px_-20px_rgba(11,37,69,.5)]">
+                <CertificateDoc c={c} watermark="Sample" />
+              </div>
+              <p className="mt-3 text-center text-[.9rem] font-bold text-ink-dark">{c.course}</p>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -467,7 +475,7 @@ export default function VerifyPage() {
                 </button>
               </div>
               <p id="cert-no-msg" className={cn('mt-2 min-h-5 text-[.8rem]', inputError ? 'font-semibold text-[#d64545]' : 'text-ink-mid')} role={inputError ? 'alert' : undefined}>
-                {inputError || 'Find the certificate number at the bottom-right of your certificate.'}
+                {inputError || 'Find the certificate number on the right side of your certificate, above the QR code.'}
               </p>
             </form>
           </div>

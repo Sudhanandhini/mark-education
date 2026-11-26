@@ -6,6 +6,9 @@ import tallyPhoto from '../assets/courses/tally-prime-photo.webp'
 import tallyPhoto2 from '../assets/courses/tally-prime-photo2.webp'
 import tallyBrochure from '../assets/courses/tally-prime-brochure.webp'
 
+/** Same brand colours on every course page */
+const BRAND_THEME = { c: '#0059A8', dark: '#003F7A', soft: '#E8F0F8', alt: '#F2B705' }
+
 /** Figures printed on the course flyers — change once here. */
 export const YEARS_EXCELLENCE = 18
 export const GOOGLE_RATING = '4.8'
@@ -27,7 +30,7 @@ export const COURSE_PAGES = {
     name: 'Power BI',
     navLabel: 'Power BI Course',
     metaTitle: 'Power BI Course in Bangalore',
-    theme: { c: '#5d7aa6', dark: '#3f5b85', soft: '#e9eef6', alt: '#e8b33a' },
+    theme: BRAND_THEME,
     partner: 'Microsoft Authorised Training Partner',
     title: <>Power BI <em>Course</em></>,
     tagline: 'Join thousands of learners and start mastering new skills today.',
@@ -58,7 +61,7 @@ export const COURSE_PAGES = {
     name: 'Microsoft Office Excel',
     navLabel: 'Microsoft Excel Courses',
     metaTitle: 'Microsoft Office Excel Courses in Bangalore',
-    theme: { c: '#2fa84f', dark: '#1d7a38', soft: '#e7f6eb', alt: '#1d7a38' },
+    theme: BRAND_THEME,
     partner: 'Microsoft Authorised Training Partner',
     title: <>Microsoft Office <em>Excel</em></>,
     tagline: 'Certified by Microsoft. Register now and get a free demo class.',
@@ -68,9 +71,9 @@ export const COURSE_PAGES = {
     photoShape: 'circle',
     programsTitle: <>Courses We <em>Offer</em></>,
     programs: [
-      { title: 'Excel with AI', text: 'Copilot & AI features to automate everyday Excel work.' },
-      { title: 'Data Analytics With Excel', text: 'Clean, analyse and visualise data for business insights.' },
-      { title: 'Advanced Excel', text: 'Formulas, lookups, pivots, macros & dashboards.' },
+      { title: 'Excel with AI', href: '/courses/microsoft-excel-with-ai', text: 'Copilot & AI features to automate everyday Excel work.' },
+      { title: 'Data Analytics With Excel', href: '/courses/data-analytics-using-excel', text: 'Clean, analyse and visualise data for business insights.' },
+      { title: 'Advanced Excel', href: '/courses/advanced-excel', text: 'Formulas, lookups, pivots, macros & dashboards.' },
     ],
     highlight: {
       icon: 'star',
@@ -87,7 +90,7 @@ export const COURSE_PAGES = {
     name: 'Tally Prime',
     navLabel: 'Tally Prime Courses',
     metaTitle: 'Tally Prime Courses — Authorised Tally Centre, North Bengaluru',
-    theme: { c: '#0b4ea2', dark: '#083a7a', soft: '#e6eef9', alt: '#e8b33a' },
+    theme: BRAND_THEME,
     partner: 'Authorised Tally Centre · North Bengaluru',
     title: <>Tally <em>Prime</em></>,
     tagline: 'Ready to level up your skills? Attend our counselling and take your career to the next level!',
@@ -98,9 +101,9 @@ export const COURSE_PAGES = {
     photoShape: 'circle',
     programsTitle: <>Programs Available on <em>Tally</em></>,
     programs: [
-      { title: 'Tally Prime Level - 1', text: 'Ledgers, vouchers and financial statements.' },
-      { title: 'Tally Prime Level - 2', text: 'Inventory, GST in Tally, payroll and banking.' },
-      { title: 'Tally Prime Level - 3', text: 'TDS, cost centres, audit and advanced reports.' },
+      { title: 'Tally Prime Level - 1', href: '/courses/tally-prime-basic', text: 'Ledgers, vouchers and financial statements.' },
+      { title: 'Tally Prime Level - 2', href: '/courses/tally-prime-intermediate', text: 'Inventory, GST in Tally, payroll and banking.' },
+      { title: 'Tally Prime Level - 3', href: '/courses/tally-prime-advanced', text: 'TDS, cost centres, audit and advanced reports.' },
       { title: 'Tally Prime Comprehensive', text: 'All three levels in one complete program.' },
       { title: 'Tally Prime with Internship', text: 'Full course plus hands-on internship experience.' },
     ],

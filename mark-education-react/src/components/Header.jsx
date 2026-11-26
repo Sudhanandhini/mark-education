@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import logo from '../assets/logo.webp'
 import { NAV } from '../data/content'
+import { CoursesMegaMenu, CoursesMobileList } from './CoursesMenu'
 import { useEnquiry } from './EnquiryProvider'
 import { SmartLink, btnPrimary, cn } from './ui'
 
@@ -10,13 +11,22 @@ const isMobile = () => window.innerWidth <= 991
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const [megaHidden, setMegaHidden] = useState(false) // hide the dropdown right after a click, until the pointer leaves
+  const [mobileCourses, setMobileCourses] = useState(false)
   const { openEnquiry } = useEnquiry()
   const { pathname, hash } = useLocation()
 
   // Close the mobile drawer whenever the route changes
   useEffect(() => {
     setOpen(false)
+    setMobileCourses(false)
   }, [pathname, hash])
+
+  const closeMega = () => {
+    setMegaHidden(true)
+    document.activeElement?.blur()
+    if (isMobile()) setOpen(false)
+  }
 
   const isActive = (item) =>
     item.match === '/' ? pathname === '/' : !!item.match && pathname.startsWith(item.match)
@@ -50,7 +60,7 @@ export default function Header() {
       >
         <div
           className={cn(
-            'wrap flex items-center justify-between transition-[height] duration-300',
+            'wrap flex items-center justify-between gap-6 transition-[height] duration-300',
             scrolled ? 'h-[85px]' : 'h-[100px] max-sm:h-[85px]',
           )}
         >
@@ -74,12 +84,16 @@ export default function Header() {
               )}
             >
               {NAV.map((item) => (
-                <li key={item.label} className="relative">
+                <li
+                  key={item.label}
+                  className={cn('relative', item.mega && 'group/mega lg:static')}
+                  onMouseLeave={item.mega ? () => setMegaHidden(false) : undefined}
+                >
                   <SmartLink
                     href={item.href}
                     onClick={() => isMobile() && setOpen(false)}
                     className={cn(
-                      'flex items-center gap-1.5 whitespace-nowrap px-3 py-2.5 text-[1.1rem] font-semibold transition-colors duration-250 hover:text-brand',
+                      'relative flex items-center gap-1.5 whitespace-nowrap px-3 py-2.5 text-[1.1rem] font-semibold transition-colors duration-250 hover:text-brand',
                       'max-xl:px-[9px] max-xl:text-[.84rem]',
                       'max-lg:justify-between max-lg:border-b max-lg:border-line max-lg:px-7 max-lg:py-3.5 max-lg:text-[.95rem]',
                       isActive(item)
@@ -88,7 +102,46 @@ export default function Header() {
                     )}
                   >
                     {item.label}
+                    {item.mega && (
+                      <svg viewBox="0 0 24 24" className="size-4 transition-transform duration-300 group-hover/mega:rotate-180 max-lg:hidden" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
+                        <path d="M6 9l6 6 6-6" />
+                      </svg>
+                    )}
                   </SmartLink>
+
+                  {item.mega && (
+                    <>
+                      {/* mobile: expand/collapse toggle */}
+                      <button
+                        type="button"
+                        aria-label={mobileCourses ? 'Hide courses' : 'Show courses'}
+                        aria-expanded={mobileCourses}
+                        onClick={() => setMobileCourses((v) => !v)}
+                        className="absolute top-1.5 right-4 hidden size-9 place-items-center rounded-full text-ink-dark hover:bg-ink-light max-lg:grid"
+                      >
+                        <svg viewBox="0 0 24 24" className={cn('size-5 transition-transform duration-300', mobileCourses && 'rotate-180')} fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
+                          <path d="M6 9l6 6 6-6" />
+                        </svg>
+                      </button>
+                      {mobileCourses && (
+                        <div className="hidden max-lg:block">
+                          <CoursesMobileList pathname={pathname} onNavigate={closeMega} />
+                        </div>
+                      )}
+
+                      {/* desktop: dropdown panel */}
+                      <div
+                        className={cn(
+                          // -mt/pt: invisible bridge over the gap between the menu item and the panel
+                          'absolute top-full left-1/2 z-50 -mt-7 -translate-x-1/2 pt-7 max-lg:hidden',
+                          'invisible translate-y-2 opacity-0 transition duration-250 ease-smooth',
+                          !megaHidden && 'group-hover/mega:visible group-hover/mega:translate-y-0 group-hover/mega:opacity-100 group-focus-within/mega:visible group-focus-within/mega:translate-y-0 group-focus-within/mega:opacity-100',
+                        )}
+                      >
+                        <CoursesMegaMenu pathname={pathname} onNavigate={closeMega} onEnquire={() => { closeMega(); openEnquiry() }} />
+                      </div>
+                    </>
+                  )}
                 </li>
               ))}
               {/* <li>

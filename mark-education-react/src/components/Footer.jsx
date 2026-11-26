@@ -75,8 +75,9 @@ export default function Footer() {
         <div className="wrap flex flex-wrap justify-between gap-2.5">
           <span>&copy; {new Date().getFullYear()} Mark Education Academy. All Rights Reserved.</span>
           <span>
-            <a href="#" className="hover:text-white">Privacy Policy</a> &nbsp;·&nbsp;{' '}
-            <a href="#" className="hover:text-white">Terms</a>
+            {/* <a href="#" className="hover:text-white">Privacy Policy</a> &nbsp;·&nbsp;{' '}
+            <a href="#" className="hover:text-white">Terms</a> */}
+            <p>Developed by <a href="https://www.manithas.com/" className="hover:text-white">Manitha Technology</a></p>
           </span>
         </div>
       </div>

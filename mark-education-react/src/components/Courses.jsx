@@ -1,15 +1,22 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { COURSE_TABS } from '../data/content'
-import { coursePageFor } from '../data/content'
+import { COURSE_TABS, coursePageFor, enquiryCourseFor } from '../data/content'
+import { useEnquiry } from './EnquiryProvider'
 import { Eyebrow, Icon, Lead, Pill, Reveal, SmartLink, Title, btn, cn } from './ui'
 
 function CourseItem({ course, index }) {
+  const { openEnquiry } = useEnquiry()
+  const page = coursePageFor(course.title)
+  // every course opens its detail page; one without a page opens the enquiry popup for it
+  const Item = page ? SmartLink : 'button'
+  const itemProps = page
+    ? { href: page }
+    : { type: 'button', 'aria-haspopup': 'dialog', onClick: () => openEnquiry(enquiryCourseFor(course.title)) }
   return (
-    <SmartLink
-      href={coursePageFor(course.title) || '#enquiry'}
+    <Item
+      {...itemProps}
       style={{ animationDelay: `${index * 90 + 120}ms`, animationDuration: '.55s' }}
       className={cn(
-        'group relative flex animate-rise items-center gap-[18px] overflow-hidden rounded-xl border border-line bg-white px-[22px] py-5',
+        'group relative flex w-full animate-rise items-center text-left gap-[18px] overflow-hidden rounded-xl border border-line bg-white px-[22px] py-5',
         'transition-all duration-350 ease-smooth hover:translate-x-1.5 hover:border-[#cfdcea] hover:shadow-soft',
         'before:absolute before:inset-y-0 before:left-0 before:w-[3px] before:scale-y-0 before:bg-brand before:transition-transform before:duration-350 before:ease-smooth hover:before:scale-y-100',
         'max-sm:gap-3.5 max-sm:p-4',
@@ -38,18 +45,18 @@ function CourseItem({ course, index }) {
       <span className="grid size-10 shrink-0 place-items-center rounded-full border border-line text-ink-dark transition-all duration-350 group-hover:-rotate-45 group-hover:border-brand group-hover:bg-brand group-hover:text-white max-sm:hidden">
         &#8594;
       </span>
-    </SmartLink>
+    </Item>
   )
 }
 
 function Panel({ tab }) {
+  const { openEnquiry } = useEnquiry()
   // Zoom the feature image out after mount for a subtle Ken Burns effect
   const [zoomed, setZoomed] = useState(true)
   useEffect(() => {
     const t = setTimeout(() => setZoomed(false), 30)
     return () => clearTimeout(t)
   }, [])
-  const count = tab.courses.length
 
   return (
     <div role="tabpanel" className="grid grid-cols-[.9fr_1.1fr] items-stretch gap-7 max-lg:grid-cols-1">
@@ -59,19 +66,24 @@ function Panel({ tab }) {
           style={{ backgroundImage: `url('${tab.image}')`, transform: zoomed ? 'scale(1.08)' : 'scale(1)' }}
         />
         <div className="absolute inset-0 bg-linear-180 from-[rgba(11,37,69,.1)] from-20% to-[rgba(11,37,69,.92)]" />
-        <div className="absolute top-6 right-6 z-[2] grid size-[84px] animate-[floaty_5s_ease-in-out_infinite] place-items-center rounded-full bg-white text-center text-[.62rem] font-extrabold uppercase leading-[1.3] tracking-[.1em] text-brand">
+        <div className="absolute top-6 right-6 z-[2] grid size-[84px] animate-[floaty_5s_ease-in-out_infinite] place-items-center rounded-full bg-white text-center text-[.6rem] font-extrabold uppercase leading-[1.3] tracking-[.1em] text-brand">
           <div>
-            <b className="block font-serif text-[1.3rem] tracking-normal text-ink-dark">{count}</b>
-            {count === 1 ? 'Course' : 'Courses'}
+            <Icon name="award" className="mx-auto mb-0.5 size-6 text-gold" />
+            Certified
           </div>
         </div>
         <div className="absolute inset-x-8 bottom-8 z-[2] text-white max-sm:inset-x-[22px] max-sm:bottom-[22px]">
           <Pill className="border-white/35 bg-white/12 text-white backdrop-blur-[6px] before:bg-white">{tab.tab}</Pill>
           <h3 className="mt-4 mb-2 font-serif text-[2.2rem] font-semibold leading-[1.1] max-sm:text-[1.8rem]">{tab.heading}</h3>
           <p className="mb-[22px] text-[.92rem] text-[#c9d7e6]">{tab.blurb}</p>
-          <a href="#enquiry" className={cn(btn, 'bg-white text-brand-deep hover:bg-brand hover:text-white')}>
-            Enquire Now &#8594;
-          </a>
+          <div className="flex flex-wrap gap-3">
+            <SmartLink href={`/courses#${tab.id}`} className={cn(btn, 'bg-white text-brand-deep hover:bg-brand hover:text-white')}>
+              View Courses &#8594;
+            </SmartLink>
+            <button type="button" aria-haspopup="dialog" onClick={() => openEnquiry()} className={cn(btn, 'border border-white/50 text-white hover:bg-white hover:text-brand-deep')}>
+              Enquire Now
+            </button>
+          </div>
         </div>
       </div>
       <div className="flex flex-col gap-3.5">
@@ -125,7 +137,7 @@ export default function Courses() {
             </Title>
           </div>
           <div className="max-w-[430px]">
-            <Lead>Choose from 15 job-oriented courses — each delivered with hands-on practical training and certification.</Lead>
+            <Lead>Choose from our job-oriented courses — each delivered with hands-on practical training and certification.</Lead>
             <SmartLink href="/courses" className="group mt-3 inline-flex items-center gap-2 text-[.82rem] font-bold uppercase tracking-[.08em] text-brand">
               View All Courses <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
             </SmartLink>
@@ -157,14 +169,6 @@ export default function Courses() {
                   )}
                 >
                   {t.tab}
-                  <span
-                    className={cn(
-                      'ml-2 inline-grid h-[22px] min-w-[22px] place-items-center rounded-[20px] px-1.5 text-[.72rem] transition duration-350',
-                      on ? 'bg-white/20 text-white' : 'bg-brand-soft text-brand',
-                    )}
-                  >
-                    {t.courses.length}
-                  </span>
                 </button>
               )
             })}

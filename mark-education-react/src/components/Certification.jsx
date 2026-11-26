@@ -1,4 +1,4 @@
-import logo from '../assets/logo.webp'
+import CertificateDoc from './CertificateDoc'
 import { CERT_WHY, OFFERS } from '../data/content'
 import { Eyebrow, Ic, Lead, Pill, Reveal, SmartLink, Title, btn, cn } from './ui'
 
@@ -19,6 +19,19 @@ function Badge({ icon, title, sub, className }) {
   )
 }
 
+const SAMPLE = {
+  name: 'Ananya R Rao',
+  parentName: 'Ramesh Rao',
+  course: 'Tally Prime Foundation',
+  grade: 'A+',
+  software: 'Tally Prime',
+  certificateNo: 'ME100001',
+  certificateDate: '29-Jan-2026',
+  institution: 'Mark Education Academy',
+  placeOfIssue: 'Bengaluru',
+}
+const SAMPLE_URL = `${typeof window !== 'undefined' ? window.location.origin : ''}${import.meta.env.BASE_URL}verify-certificate?no=${SAMPLE.certificateNo}`
+
 function CertificateVisual() {
   return (
     <Reveal variant="left" className="relative grid place-items-center px-[30px] py-10 max-lg:mx-auto max-lg:w-full max-lg:max-w-[520px]">
@@ -26,34 +39,13 @@ function CertificateVisual() {
         <span className="absolute -inset-[18px] animate-[spin_40s_linear_infinite] rounded-full border-[1.5px] border-dashed border-brand/30" />
       </span>
 
-      <div className="relative w-[min(100%,360px)] animate-[floaty_7s_ease-in-out_infinite]">
+      <div className="relative w-[min(100%,340px)] animate-[floaty_7s_ease-in-out_infinite]">
         {/* stacked papers behind */}
         <span className="absolute inset-0 -rotate-7 rounded-lg border border-line bg-white shadow-soft" />
         <span className="absolute inset-0 rotate-4 rounded-lg border border-line bg-[#f9fbfd] shadow-soft" />
 
-        <div className="relative z-[2] overflow-hidden rounded-lg bg-white px-[26px] pt-[30px] pb-6 text-center shadow-[0_24px_50px_rgba(11,37,69,.16)]">
-          <span className="pointer-events-none absolute inset-2 rounded border-[3px] border-double border-brand/40" />
-          <span className="pointer-events-none absolute top-[52%] left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-[24deg] font-serif text-[4rem] font-bold text-ink/6">
-            Sample
-          </span>
-          <img src={logo} alt="Mark Education Academy" className="mx-auto mb-4 h-[38px] w-auto" />
-          <h4 className="font-serif text-[1.8rem] font-semibold leading-[1.1] text-ink-dark">Certificate of Completion</h4>
-          <p className="mt-2.5 mb-1 text-[.68rem] text-ink-mid">This certificate is proudly awarded to</p>
-          <p className="font-serif text-[1.3rem] font-bold tracking-[.04em] text-brand">STUDENT NAME</p>
-          <p className="mt-2.5 mb-1 text-[.68rem] text-ink-mid">for successfully completing the course</p>
-          <p className="font-serif text-[1.12rem] italic text-ink-dark">Tally Prime – Advanced</p>
-          <p className="mt-2.5 mb-1 text-[.68rem] text-ink-mid">with Grade A</p>
-          <div className="mt-6 flex items-end justify-between text-left text-[.58rem] text-ink-mid">
-            <div>
-              Certificate No: ME-000000
-              <br />
-              Place: Bengaluru
-            </div>
-            <div className="grid size-[52px] place-items-center rounded-full bg-brand text-center font-serif text-[.6rem] font-bold leading-[1.1] text-white shadow-[0_0_0_4px_#fff,0_0_0_5px_var(--color-brand)]">
-              ISO<br />9001<br />2015
-            </div>
-            <div className="min-w-[84px] border-t border-ink-mid pt-1 text-center">Director</div>
-          </div>
+        <div className="relative z-[2] overflow-hidden rounded-lg shadow-[0_24px_50px_rgba(11,37,69,.18)]">
+          <CertificateDoc c={SAMPLE} watermark="Sample" verifyUrl={SAMPLE_URL} />
         </div>
       </div>
 

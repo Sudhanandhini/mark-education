@@ -49,6 +49,6 @@ CREATE TABLE IF NOT EXISTS login_attempts (
 INSERT IGNORE INTO certificates
   (certificate_no, student_name, parent_name, course, grade, release_no, certificate_date, institution, place_of_issue, status)
 VALUES
-  ('ME100001', 'Ananya R Rao',  'Ramesh Rao',     'Tally Prime – Advanced', 'A+', 'Prime 6.0', '2026-01-29', 'Mark Education Academy', 'Bengaluru', 'active'),
-  ('ME100002', 'Kiran S Kumar', 'Suresh Kumar',   'Advanced Excel',         'A',  'MS 365',    '2026-03-14', 'Mark Education Academy', 'Bengaluru', 'active'),
-  ('ME100003', 'Divya M Nair',  'Mohan Nair',     'Power BI',               'B',  'PBI 2.1',   '2025-11-02', 'Mark Education Academy', 'Bengaluru', 'revoked');
+  ('ME100001', 'Ananya R Rao',  'Ramesh Rao',   'Tally Prime Foundation',  'A+', 'Tally Prime',            '2026-01-29', 'Mark Education Academy', 'Bengaluru', 'active'),
+  ('ME100002', 'Kiran S Kumar', 'Suresh Kumar', 'Advanced Excel',          'A',  'Microsoft Office Excel', '2026-03-14', 'Mark Education Academy', 'Bengaluru', 'active'),
+  ('ME100003', 'Divya M Nair',  'Mohan Nair',   'Power BI Data Analytics', 'B',  'Microsoft Power BI',     '2025-11-02', 'Mark Education Academy', 'Bengaluru', 'revoked');

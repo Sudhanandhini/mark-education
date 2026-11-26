@@ -58,6 +58,19 @@
   @keyframes marquee {
     to { transform: translateX(calc(-50% - 11px)); }
   }
+  /* course pages: endless chip rows (track = two identical halves) */
+  @keyframes slide-half {
+    to { transform: translateX(-50%); }
+  }
+  /* course pages: invalid form field nudge + success tick */
+  @keyframes shake-x {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+  }
+  @keyframes draw-tick {
+    to { stroke-dashoffset: 0; }
+  }
   @keyframes kenburns {
     from { transform: scale(1.04) translate3d(0, 0, 0); }
     to { transform: scale(1.14) translate3d(-1.5%, -1%, 0); }
@@ -81,6 +94,12 @@
 }
 
 @layer base {
+  html,
+  body {
+    /* slide-in animations start just off-screen; clip them so phones can't scroll sideways
+       ("clip", not "hidden", so sticky sidebars keep working) */
+    overflow-x: clip;
+  }
   html {
     scroll-behavior: smooth;
   }
