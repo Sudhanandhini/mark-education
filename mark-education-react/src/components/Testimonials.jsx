@@ -92,7 +92,7 @@ export default function Testimonials() {
                   alt=""
                   loading="lazy"
                   className={cn(
-                    'size-[52px] rounded-full border-[3px] border-ink-light bg-brand-soft object-cover text-[0px] text-transparent',
+                    'size-[52px] rounded-full border-[3px] border-ink-light bg-brand-soft object-cover object-top text-[0px] text-transparent',
                     i > 0 && '-ml-3.5',
                   )}
                 />
@@ -154,7 +154,7 @@ export default function Testimonials() {
                       src={t.photo}
                       alt={t.name}
                       loading="lazy"
-                      className="size-[58px] rounded-full bg-brand-soft object-cover text-[0px] text-transparent shadow-[0_0_0_3px_#fff,0_0_0_4px_var(--color-brand)]"
+                      className="size-[58px] rounded-full bg-brand-soft object-cover object-top text-[0px] text-transparent shadow-[0_0_0_3px_#fff,0_0_0_4px_var(--color-brand)]"
                     />
                     <div>
                       <b className="block text-base text-ink-dark">{t.name}</b>

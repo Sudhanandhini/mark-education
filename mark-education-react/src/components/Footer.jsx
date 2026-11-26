@@ -1,5 +1,5 @@
 import logo from '../assets/logo.webp'
-import { EMAIL, PHONE, PHONE_HREF, POPULAR_COURSES, QUICK_LINKS } from '../data/content'
+import { ADDRESS, EMAIL, LANDMARK, MAP_URL, PHONES, POPULAR_COURSES, QUICK_LINKS } from '../data/content'
 import { FillIcon, SOCIAL, SmartLink } from './ui'
 
 const heading =
@@ -57,11 +57,18 @@ export default function Footer() {
           <ul>
             <li className="mb-2.5 flex items-start gap-3">
               <FillIcon name="pin" className={contactIcon} />
-              <span>Mark Education Academy,<br />Address line, Bengaluru – 560 000</span>
+              <a href={MAP_URL} target="_blank" rel="noreferrer" className="hover:text-white">
+                Mark Education Academy,<br />{ADDRESS}
+                <small className="mt-1 block text-[.78rem] opacity-80">{LANDMARK}</small>
+              </a>
             </li>
             <li className="mb-2.5 flex items-start gap-3">
               <FillIcon name="phone" className={contactIcon} />
-              <a href={PHONE_HREF} className="hover:text-white">{PHONE}</a>
+              <span className="flex flex-col gap-1">
+                {PHONES.map((p) => (
+                  <a key={p.href} href={p.href} className="hover:text-white">{p.label}</a>
+                ))}
+              </span>
             </li>
             <li className="mb-2.5 flex items-start gap-3">
               <FillIcon name="mail" className={contactIcon} />
@@ -77,7 +84,7 @@ export default function Footer() {
           <span>
             {/* <a href="#" className="hover:text-white">Privacy Policy</a> &nbsp;·&nbsp;{' '}
             <a href="#" className="hover:text-white">Terms</a> */}
-            <p>Developed by <a href="https://www.manithas.com/" className="hover:text-white">Manitha Technology</a></p>
+            <p>Developed by <a href="https://www.manithas.com/" className="hover:text-white">Manithas Technology</a></p>
           </span>
         </div>
       </div>

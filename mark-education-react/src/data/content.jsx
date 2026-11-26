@@ -1,9 +1,23 @@
 import { detailSlugFor } from './courseDetails'
+import tAdarsh from '../assets/test/Adarsh.jpg'
+import tDeepika from '../assets/test/Deepika R.jpg'
+import tLokesh from '../assets/test/lokesh.jpg'
+import tShanthraju from '../assets/test/Shanthraju.jpg'
+import tSharanya from '../assets/test/Sharanya S G.jpg'
 
 const u = (id, w = 1200) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=75`
 
-export const PHONE = '+91 80954 88880'
-export const PHONE_HREF = 'tel:+918095488880'
+/** All contact numbers; the first one is the main number shown in single-number spots. */
+export const PHONES = [
+  { label: '+91 97434 47733', href: 'tel:+919743447733' },
+  { label: '+91 80888 87828', href: 'tel:+918088887828' },
+  { label: '+91 88929 29882', href: 'tel:+918892929882' },
+]
+export const PHONE = PHONES[0].label
+export const PHONE_HREF = PHONES[0].href
+export const ADDRESS = 'No 17/2, 2nd Floor, Tumkur Road, T Dasarahalli, Bengaluru – 560057'
+export const LANDMARK = 'Opposite T Dasarahalli Metro Station (above Punjab National Bank)'
+export const MAP_URL = 'https://share.google/ttNWL47llerU0X255'
 export const EMAIL = 'info@markeducation.in'
 export const WEBSITE = 'www.markeducationacademy.com'
 
@@ -169,29 +183,42 @@ export const OFFERS = [
   { icon: 'briefcase', title: 'Placement Assistance', text: 'Resume building, mock interviews and 100% placement assistance.' },
 ]
 
-const face = (id) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=160&q=75&h=160&crop=faces`
 
 export const TESTIMONIALS = [
   {
-    quote: 'The Tally Prime and GST course was extremely practical. The trainers explained every concept with real examples and I got placed as an accounts executive within a month.',
-    name: 'Priya S.',
-    role: 'Accounts Executive',
-    tag: 'Tally & GST',
-    photo: face('1476638305939-a09cd694566c'),
+    quote: 'Best computer training institute in terms of money and quality. Teaches all aspects of Tally. I had earlier studied in another organisation, but with this institution I came to know that I had studied nothing earlier.',
+    name: 'Adarsh',
+    role: 'Tally Prime Student',
+    tag: 'Tally Prime',
+    photo: tAdarsh,
   },
   {
-    quote: 'Advanced Excel and Power BI training at Mark completely changed how I work. The faculty is patient and the lab sessions are excellent.',
-    name: 'Rahul K.',
-    role: 'MIS Analyst',
-    tag: 'Power BI',
-    photo: face('1649433658557-54cf58577c68'),
+    quote: 'Mark Education Academy is the only institution giving maximum placement in very beneficial streams like Tally, Advanced Excel and many more. It also has well-experienced trainers, where you get many things to study and work on.',
+    name: 'Shanthraju',
+    role: 'Tally & Advanced Excel Student',
+    tag: 'Placement',
+    photo: tShanthraju,
   },
   {
-    quote: 'Affordable fees, flexible timings and genuine placement support. I would recommend Mark Education Academy to anyone starting their career.',
-    name: 'Arjun M.',
-    role: 'SAP FICO Trainee',
-    tag: 'SAP FICO',
-    photo: face('1763014456088-5bbbb1f5cbc1'),
+    quote: 'I felt very happy and satisfied after learning here. I was struggling to prepare my own bio-data and depended on others, but now I have confidence in all the Microsoft Office programs. The support from the trainers is unimaginable, and the study materials are like nothing I have seen elsewhere.',
+    name: 'Deepika R',
+    role: 'Microsoft Office Student',
+    tag: 'MS Office',
+    photo: tDeepika,
+  },
+  {
+    quote: 'They are the authorised Tally training centre in this locality. After completing the course they gave me the Tally International Certificate, within just two days of course completion. The practice time is unlimited.',
+    name: 'Sharanya S G',
+    role: 'Tally Prime Student',
+    tag: 'Tally Certified',
+    photo: tSharanya,
+  },
+  {
+    quote: 'I learnt Advanced Excel at Mark Education Academy. I had already studied at a training centre near my home, but it was a waste of money: they only showed the options in Excel with no practicals at all. Here they provide complete practical training.',
+    name: 'Lokesh',
+    role: 'Advanced Excel Student',
+    tag: 'Advanced Excel',
+    photo: tLokesh,
   },
 ]
 
@@ -258,9 +285,7 @@ export const VALUES = [
 ]
 
 /* ---------- Contact page ---------- */
-// TODO: replace with real addresses / map location
 export const OFFICES = [
-  { type: 'Head Office', name: 'Mark Education Academy', address: 'Address line 1, Area, Bengaluru – 560 000', phone: PHONE },
-  { type: 'Branch', name: 'Mark Education Academy – Branch', address: 'Branch address line, Area, Bengaluru – 560 000', phone: PHONE },
+  { type: 'Head Office', name: 'Mark Education Academy', address: ADDRESS, landmark: LANDMARK },
 ]
-export const MAP_QUERY = 'Mark Education Academy, Bengaluru'
+export const MAP_QUERY = 'Mark Education Academy, Tumkur Road, T Dasarahalli, Bengaluru 560057'

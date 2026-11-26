@@ -3,14 +3,14 @@ import { EnquiryForm } from '../components/Faq'
 import PageBanner from '../components/PageBanner'
 import Cta from '../components/Cta'
 import { Eyebrow, FillIcon, Icon, Reveal, SOCIAL, Title, btnPrimary, cn } from '../components/ui'
-import { EMAIL, HOURS, MAP_QUERY, OFFICES, PHONE, PHONE_HREF } from '../data/content'
+import { EMAIL, HOURS, MAP_QUERY, MAP_URL, OFFICES, PHONE, PHONE_HREF, PHONES } from '../data/content'
 
 import BANNER from '../assets/contact-banner.jpg'
 
 const INFO = [
   { icon: 'phone', label: 'Call Us', value: PHONE, href: PHONE_HREF, fill: true },
   { icon: 'mail', label: 'Email Us', value: EMAIL, href: `mailto:${EMAIL}`, fill: true },
-  { icon: 'pin', label: 'Visit Us', value: 'Bengaluru, Karnataka', href: '#location', fill: true },
+  { icon: 'pin', label: 'Visit Us', value: 'T Dasarahalli, Bengaluru', href: '#location', fill: true },
   { icon: 'clock', label: 'Working Hours', value: HOURS, fill: true },
 ]
 
@@ -48,7 +48,7 @@ function Offices() {
       <div className="wrap grid grid-cols-[1fr_1.25fr] items-stretch gap-12 max-lg:grid-cols-1">
         <Reveal variant="left">
           <Eyebrow>Our Centres</Eyebrow>
-          <Title>Head Office &amp; <em>Branch</em></Title>
+          <Title>Visit Our <em>Centre</em></Title>
           <div className="mt-8 flex flex-col gap-5">
             {OFFICES.map((o, i) => (
               <div
@@ -66,10 +66,20 @@ function Offices() {
                   <FillIcon name="pin" className="mt-1 size-4 shrink-0 fill-brand" />
                   {o.address}
                 </p>
-                <a href={PHONE_HREF} className="mt-1.5 flex items-center gap-2.5 text-[.92rem] text-ink-mid hover:text-brand">
-                  <FillIcon name="phone" className="size-4 shrink-0 fill-brand" />
-                  {o.phone}
-                </a>
+                {o.landmark && (
+                  <p className="mt-2 flex items-start gap-2.5 text-[.92rem] text-ink-mid">
+                    <Icon name="building" className="mt-0.5 size-4 shrink-0 text-brand" />
+                    <span><b className="font-bold text-ink-dark">Landmark:</b> {o.landmark}</span>
+                  </p>
+                )}
+                <p className="mt-2 flex items-start gap-2.5 text-[.92rem] text-ink-mid">
+                  <FillIcon name="phone" className="mt-1 size-4 shrink-0 fill-brand" />
+                  <span className="flex flex-wrap gap-x-3 gap-y-1">
+                    {PHONES.map((p) => (
+                      <a key={p.href} href={p.href} className="font-semibold hover:text-brand">{p.label}</a>
+                    ))}
+                  </span>
+                </p>
               </div>
             ))}
           </div>
@@ -84,7 +94,7 @@ function Offices() {
             referrerPolicy="no-referrer-when-downgrade"
           />
           <a
-            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(MAP_QUERY)}`}
+            href={MAP_URL}
             target="_blank"
             rel="noreferrer"
             className={cn(btnPrimary, 'absolute bottom-5 left-5 shadow-card')}

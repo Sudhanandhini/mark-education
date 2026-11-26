@@ -87,6 +87,7 @@ admin_header('Certificates', 'dashboard');
         <td class="nowrap"><?= e(date('d M Y', strtotime($r['certificate_date']))) ?></td>
         <td><span class="badge badge-<?= e($r['status']) ?>"><?= e(ucfirst($r['status'])) ?></span></td>
         <td class="r nowrap">
+          <?php if ($r['status'] === 'active'): ?><a class="btn btn-sm btn-primary" href="certificate.php?id=<?= (int) $r['id'] ?>" title="Generate PDF / QR code">Generate</a><?php endif; ?>
           <a class="btn btn-sm btn-ghost" href="edit.php?id=<?= (int) $r['id'] ?>">Edit</a>
           <form method="post" action="delete.php" class="inline" onsubmit="return confirm('Delete certificate <?= e($r['certificate_no']) ?>? This cannot be undone.')">
             <?= csrf_field() ?>
